@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "Proof of Humanity™ — CAPTCHA From Hell",
+  description: "The most absurd CAPTCHA system ever built. Prove you're human.",
 };
 
 export default function RootLayout({
