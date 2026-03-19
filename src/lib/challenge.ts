@@ -83,7 +83,7 @@ const PRODUCTS: Product[] = [
     ],
     irrelevantSteps: [
       { id: "sacrifice", text: "Perform a blood sacrifice to the furniture gods. Paper cut counts.", icon: "🩸" },
-      { id: "viking", text: "Sing the IKEA national anthem. Lyrics are in the QR code you can't scan.", icon: "🎵" },
+      { id: "viking", text: "Sing the Flätpack national anthem. Lyrics are in the QR code you can't scan.", icon: "🎵" },
       { id: "therapy", text: "Schedule a therapy appointment. Describe the bear. They'll understand.", icon: "🛋️" },
       { id: "bath", text: "Take a 45-minute bathroom break. You've earned it. Everyone has.", icon: "🚿" },
       { id: "void", text: "Stare into the void. The void stares back. It also has an Allen key.", icon: "👁️" },

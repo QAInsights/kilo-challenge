@@ -225,7 +225,7 @@ export default function LoginPage() {
 
                 <div className="bg-ikea-yellow/20 border border-ikea-yellow rounded-lg px-3 py-2 text-xs text-amber-800">
                   <span className="font-bold">⚠️ Required:</span> This step
-                  cannot be skipped. Robots cannot assemble IKEA furniture.
+                  cannot be skipped. Robots cannot assemble Flätpack furniture.
                 </div>
 
                 <IkeaAssembly onSuccess={handleCaptchaSuccess} />
@@ -266,7 +266,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="text-center mt-6 text-[10px] text-neutral-500 leading-relaxed">
-          Protected by Proof of Humanity™ v2.1 — IKEA Assembly Module
+          Protected by Proof of Humanity™ v2.1 — Flätpack Assembly Module
           <br />
           No robots were harmed in the making of this CAPTCHA.
         </div>

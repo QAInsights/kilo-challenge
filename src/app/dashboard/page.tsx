@@ -13,7 +13,7 @@ export default function DashboardPage() {
             Welcome, human
           </h1>
           <p className="text-neutral-400 text-sm mt-2">
-            You passed the IKEA Assembly CAPTCHA.
+            You passed the Flätpack Assembly CAPTCHA.
             <br />
             Your humanity has been verified beyond reasonable doubt.
           </p>

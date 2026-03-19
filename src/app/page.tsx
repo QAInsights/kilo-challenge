@@ -22,7 +22,7 @@ export default function Home() {
         {/* Description */}
         <div className="space-y-3">
           <p className="text-neutral-300 text-sm max-w-md mx-auto leading-relaxed">
-            To prove you&apos;re human, you must assemble IKEA furniture.
+            To prove you&apos;re human, you must assemble Flätpack furniture.
             <br />
             One step is irrelevant. Robots cannot detect irony.
             <br />
@@ -72,7 +72,7 @@ export default function Home() {
 
         {/* Fine Print */}
         <div className="text-[9px] text-neutral-600 leading-relaxed">
-          Protected by Proof of Humanity™ — IKEA Assembly Module
+          Protected by Proof of Humanity™ — Flätpack Assembly Module
           <br />
           All leftover screws are intentional. Existential dread is a feature.
         </div>
