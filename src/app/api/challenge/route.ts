@@ -19,6 +19,8 @@ export async function GET() {
     product: challenge.product,
     parts: challenge.parts,
     slots: challenge.slots,
+    decoyId: challenge.answer.decoy,
+    leftoverScrewIds: challenge.answer.leftoverScrews,
   });
 }
 

@@ -28,11 +28,8 @@ interface ChallengeData {
   };
   parts: FurnitureItem[];
   slots: AssemblySlot[];
-  answer: {
-    order: string[];
-    decoy: string;
-    leftoverScrews: string[];
-  };
+  decoyId: string;
+  leftoverScrewIds: string[];
 }
 
 // ─── SVG Part Renderers ──────────────────────────────────────────────
@@ -594,8 +591,8 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
           <div className="relative z-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
             {challenge.parts.map((part) => {
               const isUsed = usedIds.has(part.id);
-              const isLeftover = challenge.answer.leftoverScrews.includes(part.id);
-              const isDecoy = challenge.answer.decoy === part.id;
+              const isLeftover = challenge.leftoverScrewIds.includes(part.id);
+              const isDecoy = challenge.decoyId === part.id;
 
               return (
                 <div
