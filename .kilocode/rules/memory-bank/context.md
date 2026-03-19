@@ -16,15 +16,19 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Recipe system for common features
 - [x] IKEA Assembly CAPTCHA challenge (drag-and-drop, 4 panels, irrelevant panel detection, leftover screws humor)
 - [x] Server-side randomized challenge system — 5 products (KLÄTTBÖRD, STÖRTKÖK, BJÖRNKÖTT, SÖMNSTJÄRNA, FJÄRTKUDDE), 50 funny steps (25 real + 25 irrelevant), API validates server-side so bots can't cheat
+- [x] Real login form flow — credentials → IKEA CAPTCHA → dashboard, 3-step wizard UI with dark theme
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page (CAPTCHA challenge) | ✅ Ready |
+| `src/app/page.tsx` | Home page (landing) | ✅ Ready |
+| `src/app/login/page.tsx` | Login form + CAPTCHA flow | ✅ Complete |
+| `src/app/dashboard/page.tsx` | Post-login dashboard | ✅ Complete |
 | `src/app/layout.tsx` | Root layout | ✅ Ready |
 | `src/app/globals.css` | Global styles (IKEA theme) | ✅ Ready |
 | `src/app/api/challenge/route.ts` | Challenge generation & validation API | ✅ Complete |
+| `src/app/api/auth/route.ts` | Auth endpoint | ✅ Complete |
 | `src/lib/challenge.ts` | Challenge data — 5 products, 50 steps | ✅ Complete |
 | `src/components/IkeaAssembly.tsx` | IKEA Assembly CAPTCHA client | ✅ Complete |
 | `.kilocode/` | AI context & recipes | ✅ Ready |
@@ -95,3 +99,4 @@ export async function GET() {
 | Initial | Template created with base setup |
 | 2026-03-19 | IKEA Assembly CAPTCHA — drag-and-drop challenge with 4 panels, irrelevant panel detection, leftover screws, pass/fail validation |
 | 2026-03-19 | Server-side randomized challenges — 5 products, 50 funny steps, API validation, bots can't cheat by reading source |
+| 2026-03-19 | Real login form — 3-step flow (credentials → IKEA CAPTCHA → dashboard), dark landing page, auth API, success certificate
