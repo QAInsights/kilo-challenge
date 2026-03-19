@@ -14,23 +14,28 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] ESLint configuration
 - [x] Memory bank documentation
 - [x] Recipe system for common features
+- [x] IKEA Assembly CAPTCHA challenge (drag-and-drop, 4 panels, irrelevant panel detection, leftover screws humor)
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
+| `src/app/page.tsx` | Home page (CAPTCHA challenge) | ✅ Ready |
 | `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
+| `src/app/globals.css` | Global styles (IKEA theme) | ✅ Ready |
+| `src/components/IkeaAssembly.tsx` | IKEA Assembly CAPTCHA | ✅ Complete |
 | `.kilocode/` | AI context & recipes | ✅ Ready |
 
 ## Current Focus
 
-The template is ready. Next steps depend on user requirements:
+Building "Proof of Humanity™" — an absurd CAPTCHA system for a hackathon challenge. Currently implemented: IKEA Assembly challenge (drag-and-drop).
 
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
+### Planned Challenges
+- Checkbox Chaos
+- CAPTCHA Within CAPTCHA
+- Catch the Checkbox
+- Slider That Fights Back
+- Emotional Support Loading Bar
 
 ## Quick Start Guide
 
@@ -85,3 +90,4 @@ export async function GET() {
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-03-19 | IKEA Assembly CAPTCHA — drag-and-drop challenge with 4 panels, irrelevant panel detection, leftover screws, pass/fail validation
