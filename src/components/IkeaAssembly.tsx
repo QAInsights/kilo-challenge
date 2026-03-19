@@ -58,15 +58,10 @@ function PanelTall({ color, accentColor }: { color: string; accentColor?: string
   const edge = accentColor || adjustColor(color, -25);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <defs>
-        <linearGradient id={`pt-${color.slice(1)}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor={color} />
-          <stop offset="40%" stopColor={adjustColor(color, 8)} />
-          <stop offset="100%" stopColor={edge} />
-        </linearGradient>
-      </defs>
       <rect x="8" y="3" width="55" height="94" rx="2"
-        fill={`url(#pt-${color.slice(1)})`} stroke={edge} strokeWidth="1.5" />
+        fill={color} stroke={edge} strokeWidth="1.5" />
+      <rect x="8" y="3" width="22" height="94" rx="2"
+        fill={adjustColor(color, 8)} opacity="0.3" />
       <WoodGrain color={color} />
       <circle cx="18" cy="15" r="2.5" fill={edge} opacity="0.5" />
       <circle cx="18" cy="50" r="2.5" fill={edge} opacity="0.5" />
@@ -79,14 +74,10 @@ function PanelWide({ color, accentColor }: { color: string; accentColor?: string
   const edge = accentColor || adjustColor(color, -25);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <defs>
-        <linearGradient id={`pw-${color.slice(1)}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={adjustColor(color, 10)} />
-          <stop offset="100%" stopColor={edge} />
-        </linearGradient>
-      </defs>
       <rect x="3" y="22" width="94" height="42" rx="2"
-        fill={`url(#pw-${color.slice(1)})`} stroke={edge} strokeWidth="1.5" />
+        fill={color} stroke={edge} strokeWidth="1.5" />
+      <rect x="3" y="22" width="94" height="14" rx="2"
+        fill={adjustColor(color, 10)} opacity="0.3" />
       <WoodGrain color={color} />
       <circle cx="15" cy="43" r="2" fill={edge} opacity="0.4" />
       <circle cx="85" cy="43" r="2" fill={edge} opacity="0.4" />
@@ -114,14 +105,10 @@ function PanelSquare({ color, accentColor }: { color: string; accentColor?: stri
   const edge = accentColor || adjustColor(color, -25);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <defs>
-        <linearGradient id={`ps-${color.slice(1)}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={adjustColor(color, 8)} />
-          <stop offset="100%" stopColor={edge} />
-        </linearGradient>
-      </defs>
       <rect x="10" y="8" width="60" height="80" rx="2"
-        fill={`url(#ps-${color.slice(1)})`} stroke={edge} strokeWidth="1.5" />
+        fill={color} stroke={edge} strokeWidth="1.5" />
+      <rect x="10" y="8" width="25" height="80" rx="2"
+        fill={adjustColor(color, 8)} opacity="0.25" />
       <WoodGrain color={color} />
       <circle cx="55" cy="48" r="3" fill="none" stroke={edge} strokeWidth="1" opacity="0.4" />
     </svg>
@@ -148,18 +135,12 @@ function Dowel({ color, accentColor }: { color: string; accentColor?: string }) 
   const edge = accentColor || adjustColor(color, -20);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <defs>
-        <linearGradient id={`dow-${color.slice(1)}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={adjustColor(color, 15)} />
-          <stop offset="50%" stopColor={color} />
-          <stop offset="100%" stopColor={edge} />
-        </linearGradient>
-      </defs>
       <rect x="15" y="38" width="70" height="24" rx="12"
-        fill={`url(#dow-${color.slice(1)})`} stroke={edge} strokeWidth="1.5" />
+        fill={color} stroke={edge} strokeWidth="1.5" />
+      <rect x="15" y="38" width="70" height="10" rx="5"
+        fill={adjustColor(color, 15)} opacity="0.3" />
       <ellipse cx="15" cy="50" rx="4" ry="12" fill={adjustColor(color, 10)} stroke={edge} strokeWidth="1" />
       <ellipse cx="85" cy="50" rx="4" ry="12" fill={edge} stroke={adjustColor(edge, -10)} strokeWidth="1" />
-      <line x1="22" y1="46" x2="78" y2="46" stroke={adjustColor(color, 12)} strokeWidth="0.8" opacity="0.3" />
     </svg>
   );
 }
@@ -182,15 +163,10 @@ function GlassPanel({ color, accentColor }: { color: string; accentColor?: strin
   const edge = accentColor || adjustColor(color, -20);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <defs>
-        <linearGradient id={`gl-${color.slice(1)}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.5" />
-          <stop offset="50%" stopColor="white" stopOpacity="0.2" />
-          <stop offset="100%" stopColor={edge} stopOpacity="0.4" />
-        </linearGradient>
-      </defs>
       <rect x="8" y="28" width="84" height="44" rx="2"
-        fill={`url(#gl-${color.slice(1)})`} stroke={edge} strokeWidth="1.5" />
+        fill={color} fillOpacity="0.4" stroke={edge} strokeWidth="1.5" />
+      <rect x="8" y="28" width="30" height="44" rx="2"
+        fill="white" fillOpacity="0.15" />
       <path d="M15,32 L40,68" stroke="white" strokeWidth="1.5" opacity="0.4" />
       <path d="M22,32 L47,68" stroke="white" strokeWidth="0.8" opacity="0.25" />
       <rect x="8" y="28" width="84" height="44" rx="2"
@@ -206,7 +182,7 @@ function RubberFoot({ color, accentColor }: { color: string; accentColor?: strin
       <ellipse cx="50" cy="65" rx="35" ry="18" fill={dark} />
       <ellipse cx="50" cy="60" rx="32" ry="15" fill={color} stroke={dark} strokeWidth="1.5" />
       <ellipse cx="50" cy="56" rx="20" ry="8" fill={adjustColor(color, 15)} opacity="0.4" />
-      <path d="M35,52 Q50,42 65,52" stroke={adjustColor(color, 20)} strokeWidth="1" fill="none" opacity="0.3" />
+      <ellipse cx="50" cy="52" rx="14" ry="5" fill={adjustColor(color, 25)} opacity="0.2" />
       <text x="50" y="68" textAnchor="middle" fontSize="8" fill={adjustColor(color, 30)} fontWeight="bold" opacity="0.4">GRIP</text>
     </svg>
   );
@@ -745,15 +721,6 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         All leftover screws are intentional. Existential dread is a feature, not a bug.
       </div>
 
-      <style jsx global>{`
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          20% { transform: translateX(-6px); }
-          40% { transform: translateX(6px); }
-          60% { transform: translateX(-4px); }
-          80% { transform: translateX(4px); }
-        }
-      `}</style>
     </div>
   );
 }
