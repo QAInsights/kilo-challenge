@@ -103,3 +103,4 @@ export async function GET() {
 | 2026-03-19 | Real login form — 3-step flow (credentials → IKEA CAPTCHA → dashboard), dark landing page, auth API, success certificate
 
 | 2026-03-19 | Visual assembly upgrade — SVG furniture parts on wood workbench, blueprint assembly zone, decoy/spare part detection, drag-and-drop with visual feedback |
+| 2026-03-19 | Fix hydration errors — removed styled-jsx block, moved keyframes to globals.css, removed SVG gradient defs to eliminate duplicate DOM IDs |
