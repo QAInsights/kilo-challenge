@@ -74,7 +74,7 @@ function LoadingSpinner() {
   );
 }
 
-export default function IkeaAssembly() {
+export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } = {}) {
   const [challenge, setChallenge] = useState<ChallengeData | null>(null);
   const [slots, setSlots] = useState<SlotState[]>([
     { panel: null },
@@ -216,12 +216,15 @@ export default function IkeaAssembly() {
       });
       const data = await res.json();
       setResult(data);
+      if (data.success && onSuccess) {
+        onSuccess();
+      }
     } catch {
       setResult({ success: false, message: "Server error. Even our servers gave up." });
     } finally {
       setSubmitting(false);
     }
-  }, [challenge, slots, submitting]);
+  }, [challenge, slots, submitting, onSuccess]);
 
   const filledCount = slots.filter((s) => s.panel !== null).length;
 
