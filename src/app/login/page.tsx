@@ -218,14 +218,14 @@ export default function LoginPage() {
                     Prove you&apos;re human
                   </h2>
                   <p className="text-sm text-neutral-500 mt-1">
-                    Assemble the furniture. Discard the irrelevant step. No
-                    pressure.
+                    Assemble the furniture from real parts. Leave the decoy and
+                    spare screws on the table. No pressure.
                   </p>
                 </div>
 
                 <div className="bg-ikea-yellow/20 border border-ikea-yellow rounded-lg px-3 py-2 text-xs text-amber-800">
                   <span className="font-bold">⚠️ Required:</span> This step
-                  cannot be skipped. Robots cannot assemble Flätpack furniture.
+                  cannot be skipped. Only humans know which parts go where.
                 </div>
 
                 <IkeaAssembly onSuccess={handleCaptchaSuccess} />

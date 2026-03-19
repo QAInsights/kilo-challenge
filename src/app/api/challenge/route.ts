@@ -7,7 +7,6 @@ export async function GET() {
   const challenge = generateChallenge();
   challenges.set(challenge.id, challenge);
 
-  // Clean up old challenges (keep last 100)
   if (challenges.size > 100) {
     const keys = Array.from(challenges.keys());
     for (let i = 0; i < keys.length - 100; i++) {
@@ -15,11 +14,11 @@ export async function GET() {
     }
   }
 
-  // Send panels without the answer
   return NextResponse.json({
     id: challenge.id,
     product: challenge.product,
-    panels: challenge.panels,
+    parts: challenge.parts,
+    slots: challenge.slots,
   });
 }
 
@@ -34,29 +33,27 @@ export async function POST(request: NextRequest) {
 
   if (!challenge) {
     return NextResponse.json(
-      { success: false, message: "Challenge expired. Get a new one." },
+      { success: false, message: "Challenge expired. The parts have been returned to the warehouse." },
       { status: 400 }
     );
   }
 
-  // Validate: check order is correct and no irrelevant panel included
-  const hasIrrelevant = order.includes(challenge.answer.irrelevant);
+  const hasDecoy = order.includes(challenge.answer.decoy);
   const orderCorrect =
     order.length === 3 &&
     order[0] === challenge.answer.order[0] &&
     order[1] === challenge.answer.order[1] &&
     order[2] === challenge.answer.order[2];
 
-  // Clean up after validation
   challenges.delete(challengeId);
 
-  if (hasIrrelevant) {
+  if (hasDecoy) {
     const messages = [
-      "You included the irrelevant step. Robots cannot filter irony.",
-      "The fake step was right there. You walked right into it.",
-      "Nice try, robot. Humans can detect sarcasm. Can you?",
-      "That step was a trap and you fell for it. Beautifully.",
-      "The irrelevant panel thanks you for your patronage.",
+      "You used the decoy part. Real humans know which parts don't belong.",
+      "That part was a trap. Your furniture now has a glass shelf where it shouldn't.",
+      "The decoy was right there on the table. You picked it up anyway.",
+      "Nice try, robot. Humans can spot a part that doesn't fit.",
+      "The fake part thanks you for your service. The bookshelf does not.",
     ];
     return NextResponse.json({
       success: false,
@@ -66,11 +63,11 @@ export async function POST(request: NextRequest) {
 
   if (!orderCorrect) {
     const messages = [
-      "Wrong order. Even robots know dowels go before screws.",
-      "That's not how you build a thing. Have you ever built a thing?",
-      "The assembly order is sacred. You have desecrated it.",
-      "Shuffled. Just like your confidence. Try again.",
-      "Scandinavian gods disapprove of this ordering.",
+      "Wrong assembly order. Dowels before screws. Always.",
+      "That's not how you build furniture. The Allen key weeps.",
+      "The assembly sequence is sacred. You have desecrated it.",
+      "Parts in the wrong order. The Scandinavian gods disapprove.",
+      "Scrambled assembly detected. This isn't abstract furniture art.",
     ];
     return NextResponse.json({
       success: false,
@@ -79,11 +76,11 @@ export async function POST(request: NextRequest) {
   }
 
   const messages = [
-    "You are clearly human. No robot would tolerate this.",
-    "Congratulations. Your bookshelf is assembled. Your dignity is not.",
-    "Passed. The furniture gods smile upon you. Briefly.",
-    "Human confirmed. Your suffering has been validated.",
-    "You did it. The screws are still leftover. This is normal.",
+    "Assembly complete. The leftover screws approve of your humanity.",
+    "You are clearly human. No robot tolerates this many spare parts.",
+    "Humanity confirmed. Your furniture stands. Your dignity remains questionable.",
+    "Passed. The workbench gods smile upon you. Briefly.",
+    "You did it. Only a real human knows extra screws are normal.",
   ];
   return NextResponse.json({
     success: true,

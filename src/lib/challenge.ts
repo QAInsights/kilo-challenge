@@ -1,15 +1,27 @@
-export interface Step {
+export interface FurnitureItem {
   id: string;
-  text: string;
-  icon: string;
+  type: string;
+  label: string;
+  color: string;
+  accentColor?: string;
+  width: number;
+  height: number;
+}
+
+export interface AssemblySlot {
+  stepNumber: number;
+  description: string;
+  targetType: string;
+  label: string;
 }
 
 export interface Product {
   name: string;
   series: string;
   icon: string;
-  realSteps: Step[];
-  irrelevantSteps: Step[];
+  correctParts: FurnitureItem[];
+  decoyParts: FurnitureItem[];
+  steps: { description: string; targetType: string }[];
 }
 
 export interface Challenge {
@@ -19,15 +31,12 @@ export interface Challenge {
     series: string;
     icon: string;
   };
-  panels: {
-    id: string;
-    stepLabel: string;
-    text: string;
-    icon: string;
-  }[];
+  parts: FurnitureItem[];
+  slots: AssemblySlot[];
   answer: {
-    order: string[]; // correct 3 panel IDs in order
-    irrelevant: string; // the panel ID to exclude
+    order: string[];
+    decoy: string;
+    leftoverScrews: string[];
   };
 }
 
@@ -35,96 +44,91 @@ const PRODUCTS: Product[] = [
   {
     name: "KLÄTTBÖRD",
     series: "BÖRDSHÄLV",
-    icon: "🪵",
-    realSteps: [
-      { id: "dowel", text: "Hammer wooden dowels into pre-drilled holes. If dowels don't fit, push harder. Wood was meant to suffer.", icon: "🔨" },
-      { id: "side", text: "Attach side panels using the included Allen key (hex 4mm). Tighten until you hear a satisfying crunch.", icon: "🔧" },
-      { id: "shelf", text: "Secure each shelf board with 6 screws. Do not overtighten. Overtightening voids the emotional warranty.", icon: "🪛" },
-      { id: "back", text: "Nail the thin backing board. Hit your thumb at least once. This is tradition.", icon: "📌" },
-      { id: "stand", text: "Stand the bookshelf upright. Marvel at your temporary competence.", icon: "📦" },
+    icon: "📚",
+    correctParts: [
+      { id: "side-l", type: "panel-tall", label: "Left Side Panel", color: "#C4956A", width: 50, height: 90 },
+      { id: "shelves", type: "panel-wide", label: "Shelf Board (×3)", color: "#B8875A", width: 90, height: 35 },
+      { id: "backboard", type: "panel-thin", label: "Back Board", color: "#D4A574", width: 85, height: 85 },
     ],
-    irrelevantSteps: [
-      { id: "life", text: "Question why you didn't just buy a finished shelf. Contemplate the void.", icon: "😐" },
-      { id: "mom", text: "Call your mother. Tell her you love her. She worries about you.", icon: "📞" },
-      { id: "cry", text: "Cry softly into the Allen key. Let the hex shape imprint on your cheek. This is healing.", icon: "😢" },
-      { id: "name", text: "Name each screw individually. Write them on the warranty card. Gerald, Brenda, Little Timmy.", icon: "📝" },
-      { id: "mortgage", text: "Sign the mortgage paperwork for this $47 bookshelf. Interest rate: 340%.", icon: "✍️" },
+    decoyParts: [
+      { id: "glass-shelf", type: "glass-panel", label: "Glass Shelf Insert", color: "#B8D4E3", accentColor: "#92BDD4", width: 80, height: 30 },
+    ],
+    steps: [
+      { description: "Insert wooden dowels to connect side panels", targetType: "panel-tall" },
+      { description: "Secure shelf boards with Phillips screws", targetType: "panel-wide" },
+      { description: "Nail the back board for structural support", targetType: "panel-thin" },
     ],
   },
   {
     name: "STÖRTKÖK",
     series: "MATDRÖM",
     icon: "🍳",
-    realSteps: [
-      { id: "counter", text: "Align countertop with base cabinet. The gap is intentional. We call it 'character'.", icon: "📏" },
-      { id: "hinge", text: "Attach cabinet door hinges. Left door opens, right door sticks. This is balance.", icon: "🔩" },
-      { id: "sink", text: "Drop in the sink basin. Apply sealant generously. Too much is never enough.", icon: "🚰" },
-      { id: "handles", text: "Screw in drawer handles. All 14 of them. Yes, a 2-drawer cabinet needs 14 handles.", icon: "🚪" },
-      { id: "level", text: "Use a level to check alignment. Ignore the result. Lean it slightly left for 'rustic charm'.", icon: "📐" },
+    correctParts: [
+      { id: "counter", type: "panel-wide", label: "Countertop", color: "#F0E6D3", accentColor: "#E0D4BE", width: 95, height: 30 },
+      { id: "cabinet-door", type: "panel-square", label: "Cabinet Door", color: "#E8E0D8", width: 60, height: 70 },
+      { id: "handles", type: "bracket", label: "Drawer Handles (×4)", color: "#B0B0B0", accentColor: "#909090", width: 55, height: 25 },
     ],
-    irrelevantSteps: [
-      { id: "taste", text: "Taste the wood glue. Rate it on a scale of 'regret' to 'profound regret'.", icon: "👅" },
-      { id: "rage", text: "Scream into the empty cabinet for 30 seconds. This is the 'acoustic calibration' step.", icon: "😤" },
-      { id: "exist", text: "Accept that you will never own a real kitchen. This particle board is your destiny.", icon: "🏡" },
-      { id: "snack", text: "Eat a single meatball in solemn tribute to the Swedish gods of flat-pack furniture.", icon: "🧆" },
-      { id: "cat", text: "Feed the cat. You don't have a cat. Adopt one. Name it 'Allen'.", icon: "🐱" },
+    decoyParts: [
+      { id: "rubber-feet", type: "rubber-foot", label: "Anti-Slip Rubber Feet", color: "#555555", accentColor: "#333333", width: 50, height: 20 },
+    ],
+    steps: [
+      { description: "Align countertop with base unit", targetType: "panel-wide" },
+      { description: "Attach cabinet door with hinges", targetType: "panel-square" },
+      { description: "Screw in the drawer handles", targetType: "bracket" },
     ],
   },
   {
     name: "BJÖRNKÖTT",
     series: "VILDSMÄLT",
-    icon: "🐻",
-    realSteps: [
-      { id: "chamber", text: "Insert grinding chamber into base unit. Twist firmly. Grunting is acceptable.", icon: "⚙️" },
-      { id: "blade", text: "Place the blade assembly into the chamber. Do not touch the blade. We warned you.", icon: "🗡️" },
-      { id: "lid", text: "Lock the lid with the safety clip. If it doesn't lock, you assembled the lid upside down. Again.", icon: "🔒" },
-      { id: "motor", text: "Connect motor housing. Plug into outlet. Pray to Scandinavian thunder gods.", icon: "⚡" },
-      { id: "test", text: "Run a test grind with a single meatball. If it explodes, consult the warranty void sticker.", icon: "🧪" },
+    icon: "⚙️",
+    correctParts: [
+      { id: "chamber", type: "panel-square", label: "Grinding Chamber", color: "#7A7A7A", accentColor: "#5A5A5A", width: 70, height: 65 },
+      { id: "blade-unit", type: "bracket", label: "Blade Assembly", color: "#C8C8C8", accentColor: "#A0A0A0", width: 60, height: 55 },
+      { id: "motor-housing", type: "panel-tall", label: "Motor Housing", color: "#4A4A4A", accentColor: "#333333", width: 55, height: 80 },
     ],
-    irrelevantSteps: [
-      { id: "sacrifice", text: "Perform a blood sacrifice to the furniture gods. Paper cut counts.", icon: "🩸" },
-      { id: "viking", text: "Sing the Flätpack national anthem. Lyrics are in the QR code you can't scan.", icon: "🎵" },
-      { id: "therapy", text: "Schedule a therapy appointment. Describe the bear. They'll understand.", icon: "🛋️" },
-      { id: "bath", text: "Take a 45-minute bathroom break. You've earned it. Everyone has.", icon: "🚿" },
-      { id: "void", text: "Stare into the void. The void stares back. It also has an Allen key.", icon: "👁️" },
+    decoyParts: [
+      { id: "safety-goggles", type: "glass-panel", label: "Safety Goggles", color: "#FFD700", accentColor: "#DAA520", width: 70, height: 30 },
+    ],
+    steps: [
+      { description: "Insert grinding chamber into base", targetType: "panel-square" },
+      { description: "Place blade assembly into chamber", targetType: "bracket" },
+      { description: "Attach motor housing and secure", targetType: "panel-tall" },
     ],
   },
   {
     name: "SÖMNSTJÄRNA",
     series: "NATTMÖRKER",
     icon: "⭐",
-    realSteps: [
-      { id: "ring", text: "Bend the wire ring into a circle. If it doesn't bend, you're holding the wrong part.", icon: "⭕" },
-      { id: "web", text: "Weave the string across the ring in a spiral pattern. Perfection is not required. Mediocrity is.", icon: "🕸️" },
-      { id: "feather", text: "Tie feathers to the hanging strings. Each feather represents a dream you'll never have.", icon: "🪶" },
-      { id: "bead", text: "Thread beads onto the strings. The instructions say 23. Count them twice. Still wrong.", icon: "📿" },
-      { id: "hang", text: "Hang above bed. Adjust height until it bonks you in the face at 3 AM. Perfect.", icon: "🌙" },
+    correctParts: [
+      { id: "wire-ring", type: "panel-wide", label: "Wire Ring Frame", color: "#B8860B", accentColor: "#8B6508", width: 85, height: 25 },
+      { id: "web-string", type: "dowel", label: "Weaving String Bundle", color: "#F5F5DC", accentColor: "#E0DCC0", width: 50, height: 15 },
+      { id: "feathers", type: "panel-thin", label: "Decorative Feathers", color: "#9370DB", accentColor: "#7B5FBF", width: 35, height: 80 },
     ],
-    irrelevantSteps: [
-      { id: "dream", text: "Dream about assembling this. Wake up confused. Realize you're still assembling it.", icon: "💭" },
-      { id: "regret", text: "Write a letter of regret to your past self who chose 'craft project' over 'nap'.", icon: "✉️" },
-      { id: "potion", text: "Brew a calming tea. Drink it. Realize the string was not tea. Panic.", icon: "🍵" },
-      { id: "dance", text: "Perform a ritual dance to summon the instruction manual's missing page 4.", icon: "💃" },
-      { id: "accept", text: "Accept that this will hang in your room forever, slightly crooked, judging you.", icon: "🙏" },
+    decoyParts: [
+      { id: "led-lights", type: "screw", label: "Fairy LED Lights", color: "#FFD700", accentColor: "#FFA500", width: 45, height: 45 },
+    ],
+    steps: [
+      { description: "Bend wire ring into circle shape", targetType: "panel-wide" },
+      { description: "Weave string across the ring", targetType: "dowel" },
+      { description: "Tie feathers to hanging strings", targetType: "panel-thin" },
     ],
   },
   {
     name: "FJÄRTKUDDE",
     series: "KOMFORTZON",
-    icon: "💨",
-    realSteps: [
-      { id: "foam", text: "Compress the memory foam. It remembers your failures. Insert into cover anyway.", icon: "🧽" },
-      { id: "zip", text: "Zip the outer cover. If the zipper jams, it's testing your patience. Pass the test.", icon: "🤐" },
-      { id: "fluff", text: "Fluff the pillow aggressively. Channel your rage. This is acceptable stress relief.", icon: "💨" },
-      { id: "valve", text: "Open the air valve. Let it expand for 48 hours. Yes, 48. Go touch grass.", icon: "🎈" },
-      { id: "test2", text: "Sit on the cushion. Bounce twice. If it makes a noise, that's a feature, not a bug.", icon: "🪑" },
+    icon: "🛋️",
+    correctParts: [
+      { id: "foam-core", type: "panel-square", label: "Memory Foam Core", color: "#E8E0F0", accentColor: "#D0C4E0", width: 80, height: 50 },
+      { id: "outer-cover", type: "panel-wide", label: "Fabric Outer Cover", color: "#6B8E9B", accentColor: "#567A87", width: 90, height: 55 },
+      { id: "zipper", type: "bracket", label: "Zipper Assembly", color: "#A0A0A0", accentColor: "#808080", width: 70, height: 15 },
     ],
-    irrelevantSteps: [
-      { id: "blame", text: "Blame the cushion for your back problems. The cushion accepts no responsibility.", icon: "👉" },
-      { id: "confess", text: "Confess your sins to the pillow. It has seen worse. Trust us.", icon: "🛐" },
-      { id: "hug", text: "Hug the pillow for no less than 60 seconds. Whisper 'I'm sorry'. Don't explain.", icon: "🤗" },
-      { id: "google", text: "Google 'why am I like this'. Close all tabs. Open them again at 2 AM.", icon: "🔍" },
-      { id: "warranty", text: "Complete the emotional damage waiver. Check 'yes' under 'I have feelings'.", icon: "📋" },
+    decoyParts: [
+      { id: "air-pump", type: "rubber-foot", label: "Inflation Air Pump", color: "#FF6B6B", accentColor: "#E05555", width: 40, height: 55 },
+    ],
+    steps: [
+      { description: "Insert memory foam into cover", targetType: "panel-square" },
+      { description: "Wrap the outer fabric cover", targetType: "panel-wide" },
+      { description: "Secure the zipper assembly", targetType: "bracket" },
     ],
   },
 ];
@@ -140,34 +144,27 @@ function shuffle<T>(arr: T[]): T[] {
 
 export function generateChallenge(): Challenge {
   const product = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
-  const shuffledReal = shuffle(product.realSteps);
-  const shuffledIrrelevant = shuffle(product.irrelevantSteps);
+  const shuffledCorrect = shuffle([...product.correctParts]);
+  const decoy = product.decoyParts[0];
 
-  // Pick 3 real steps + 1 irrelevant
-  const chosenReal = shuffledReal.slice(0, 3);
-  const chosenIrrelevant = shuffledIrrelevant[0];
+  const leftoverScrews: FurnitureItem[] = [
+    { id: "ls-1", type: "screw", label: "M4 Screw", color: "#A0A0A0", accentColor: "#808080", width: 18, height: 18 },
+    { id: "ls-2", type: "screw", label: "M4 Screw", color: "#A8A8A8", accentColor: "#888888", width: 18, height: 18 },
+    { id: "ls-3", type: "screw", label: "Allen Key", color: "#B8B8B8", accentColor: "#999999", width: 35, height: 12 },
+  ];
 
-  // Label them with fake step numbers
-  const panels = shuffle([
-    ...chosenReal.map((s, i) => ({
-      id: s.id,
-      stepLabel: `STEG ${i + 1}`,
-      text: s.text,
-      icon: s.icon,
-    })),
-    {
-      id: chosenIrrelevant.id,
-      stepLabel: `STEG ${Math.floor(Math.random() * 3) + 3}`,
-      text: chosenIrrelevant.text,
-      icon: chosenIrrelevant.icon,
-    },
+  const allParts = shuffle([
+    ...shuffledCorrect,
+    decoy,
+    ...leftoverScrews,
   ]);
 
-  // Correct order: index of chosenReal in the original realSteps array
-  const realIndices = chosenReal.map((s) => product.realSteps.indexOf(s));
-  const sortedReal = chosenReal
-    .map((s, i) => ({ step: s, originalIndex: realIndices[i] }))
-    .sort((a, b) => a.originalIndex - b.originalIndex);
+  const slots: AssemblySlot[] = product.steps.map((step, i) => ({
+    stepNumber: i + 1,
+    description: step.description,
+    targetType: step.targetType,
+    label: `Step ${i + 1}`,
+  }));
 
   return {
     id: Math.random().toString(36).slice(2),
@@ -176,10 +173,12 @@ export function generateChallenge(): Challenge {
       series: product.series,
       icon: product.icon,
     },
-    panels,
+    parts: allParts,
+    slots,
     answer: {
-      order: sortedReal.map((s) => s.step.id),
-      irrelevant: chosenIrrelevant.id,
+      order: product.correctParts.map((p) => p.id),
+      decoy: decoy.id,
+      leftoverScrews: leftoverScrews.map((s) => s.id),
     },
   };
 }
