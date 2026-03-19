@@ -17,6 +17,7 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] IKEA Assembly CAPTCHA challenge (drag-and-drop, 4 panels, irrelevant panel detection, leftover screws humor)
 - [x] Server-side randomized challenge system — 5 products (KLÄTTBÖRD, STÖRTKÖK, BJÖRNKÖTT, SÖMNSTJÄRNA, FJÄRTKUDDE), 50 funny steps (25 real + 25 irrelevant), API validates server-side so bots can't cheat
 - [x] Real login form flow — credentials → IKEA CAPTCHA → dashboard, 3-step wizard UI with dark theme
+- [x] Visual assembly workspace upgrade — replaced text panels with SVG-rendered furniture parts (panels, screws, dowels, brackets), wood-grain workbench surface, blueprint-style assembly zone, drag-and-drop with visual feedback (highlight, shake, glow), decoy parts tagged with badges, leftover screws as human verification signal, 6 products with unique color schemes
 
 ## Current Structure
 
@@ -100,3 +101,5 @@ export async function GET() {
 | 2026-03-19 | IKEA Assembly CAPTCHA — drag-and-drop challenge with 4 panels, irrelevant panel detection, leftover screws, pass/fail validation |
 | 2026-03-19 | Server-side randomized challenges — 5 products, 50 funny steps, API validation, bots can't cheat by reading source |
 | 2026-03-19 | Real login form — 3-step flow (credentials → IKEA CAPTCHA → dashboard), dark landing page, auth API, success certificate
+
+| 2026-03-19 | Visual assembly upgrade — SVG furniture parts on wood workbench, blueprint assembly zone, decoy/spare part detection, drag-and-drop with visual feedback |
