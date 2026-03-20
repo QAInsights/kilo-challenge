@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import IkeaAssembly from "@/components/IkeaAssembly";
+import PaymentCheckout from "@/components/PaymentCheckout";
 
 const WITTY_CREDS = [
   { email: "definitely.not.a.robot@humanmail.com", password: "iHaveFeelings123!" },
@@ -19,7 +20,7 @@ const WITTY_CREDS = [
   { email: "emotionally.damaged@wood.glue", password: "TasteTheRegret8" },
 ];
 
-type Step = "credentials" | "captcha" | "success";
+type Step = "credentials" | "captcha" | "payment" | "success";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -58,9 +59,11 @@ export default function LoginPage() {
 
   const handleCaptchaSuccess = useCallback(async () => {
     setCaptchaPassed(true);
+    await new Promise((r) => setTimeout(r, 1200));
+    setStep("payment");
+  }, []);
 
-    await new Promise((r) => setTimeout(r, 1500));
-
+  const handlePaymentSuccess = useCallback(async () => {
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -98,15 +101,13 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          {/* Step Indicator */}
+          {/* Step Indicator — 4 steps */}
           <div className="bg-neutral-50 border-b border-neutral-200 px-6 py-3 flex items-center gap-2">
             <div
               className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
                 step === "credentials"
                   ? "bg-ikea-blue text-white"
-                  : captchaPassed
-                  ? "bg-green-500 text-white"
-                  : "bg-neutral-200 text-neutral-500"
+                  : "bg-green-500 text-white"
               }`}
             >
               {step !== "credentials" ? "✓" : "1"}
@@ -116,12 +117,24 @@ export default function LoginPage() {
               className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
                 step === "captcha"
                   ? "bg-ikea-blue text-white"
+                  : captchaPassed
+                  ? "bg-green-500 text-white"
+                  : "bg-neutral-200 text-neutral-500"
+              }`}
+            >
+              {captchaPassed ? "✓" : "2"}
+            </div>
+            <div className="h-px flex-1 bg-neutral-200" />
+            <div
+              className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
+                step === "payment"
+                  ? "bg-ikea-blue text-white"
                   : step === "success"
                   ? "bg-green-500 text-white"
                   : "bg-neutral-200 text-neutral-500"
               }`}
             >
-              {step === "success" ? "✓" : "2"}
+              {step === "success" ? "✓" : "3"}
             </div>
             <div className="h-px flex-1 bg-neutral-200" />
             <div
@@ -131,7 +144,7 @@ export default function LoginPage() {
                   : "bg-neutral-200 text-neutral-500"
               }`}
             >
-              {step === "success" ? "✓" : "3"}
+              {step === "success" ? "✓" : "4"}
             </div>
           </div>
 
@@ -141,11 +154,15 @@ export default function LoginPage() {
               Creds
             </span>
             <div className="flex-1" />
-            <span className="text-[10px] text-neutral-500 w-6 text-center">
+            <span className="text-[10px] text-neutral-500 w-8 text-center">
               CAPTCHA
             </span>
             <div className="flex-1" />
-            <span className="text-[10px] text-neutral-500 w-6 text-center">
+            <span className="text-[10px] text-neutral-500 w-10 text-center">
+              Payment
+            </span>
+            <div className="flex-1" />
+            <span className="text-[10px] text-neutral-500 w-8 text-center">
               Access
             </span>
           </div>
@@ -262,8 +279,24 @@ export default function LoginPage() {
                   Human verified
                 </h2>
                 <p className="text-sm text-neutral-500">
-                  Redirecting you to safety...
+                  Proceeding to payment...
                 </p>
+              </div>
+            )}
+
+            {step === "payment" && (
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-xl font-bold text-neutral-800">
+                    Humanity Tax
+                  </h2>
+                  <p className="text-sm text-neutral-500 mt-1">
+                    One micro-payment to confirm you&apos;re not a bot army.
+                    Bots pay more with each retry.
+                  </p>
+                </div>
+
+                <PaymentCheckout onSuccess={handlePaymentSuccess} />
               </div>
             )}
 
@@ -275,10 +308,10 @@ export default function LoginPage() {
                 </h2>
                 <p className="text-sm text-neutral-500">
                   You have successfully proven your humanity through the power
-                  of Scandinavian furniture assembly.
+                  of Scandinavian furniture assembly and micro-payments.
                 </p>
                 <div className="bg-green-50 rounded-lg p-3 text-xs text-green-700">
-                  Session authenticated. Your leftover screws have been logged.
+                  Session authenticated. Your leftover screws and receipt have been logged.
                 </div>
               </div>
             )}
@@ -287,9 +320,9 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="text-center mt-6 text-[10px] text-neutral-500 leading-relaxed">
-          Protected by Proof of Humanity™ v2.1 — Flätpack Assembly Module
+          Protected by Proof of Humanity™ v3.0 — Flätpack Assembly + Flätpay™
           <br />
-          No robots were harmed in the making of this CAPTCHA.
+          No robots were harmed. Their wallets, however, were not spared.
         </div>
       </div>
     </main>
