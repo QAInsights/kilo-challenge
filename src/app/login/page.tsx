@@ -7,7 +7,7 @@ import IkeaAssembly from "@/components/IkeaAssembly";
 const WITTY_CREDS = [
   { email: "definitely.not.a.robot@humanmail.com", password: "iHaveFeelings123!" },
   { email: "meatbag@organic.life", password: "AllenKey4Ever" },
-  { email: "leftover.screws@flätpack.se", password: "cryIntoTheDowel2" },
+  { email: "leftover.screws@flatpack.se", password: "cryIntoTheDowel2" },
   { email: "real.person@flesh.zone", password: "IActuallyReadInstructions" },
   { email: "sentient.bookshelf@wood.grain", password: "particleBoard#1" },
   { email: "homo.sapiens@earth.planet", password: "sweatAndTears99" },
