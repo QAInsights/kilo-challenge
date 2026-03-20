@@ -431,20 +431,24 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       {/* Instruction */}
       <div className="bg-white border-x border-neutral-200 p-4">
         <p className="text-sm text-neutral-700 font-medium">
-          Drag the matching parts into each slot. Match shapes — a ghost outline shows what each slot needs.
+          Each slot shows a ghost shape. Drag the matching solid shape from the tray below.
         </p>
         <p className="text-xs text-neutral-400 mt-1 italic">
-          Real assembly always has leftover screws. Only a robot would try to use every part.
+          Some parts are decoys. Not everything in the box belongs in the furniture.
+          This is also a metaphor for life.
         </p>
       </div>
 
       {/* Assembly Zone */}
       <div className="bg-white border-x border-neutral-200 px-4 pb-2">
-        <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+        <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1 flex items-center gap-2">
           <span className="inline-block w-8 h-px bg-neutral-300" />
           Assembly Area
           <span className="inline-block flex-1 h-px bg-neutral-300" />
         </div>
+        <p className="text-[9px] text-neutral-400 mb-3 italic text-center">
+          The void demands three shapes. Fill it wisely.
+        </p>
 
         <div className="relative bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl p-4 sm:p-6 overflow-hidden">
           {/* Blueprint grid */}
@@ -508,7 +512,12 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                         <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-20">
                           <PartSVG item={{ id: "", type: slot.targetType, color: "#94a3b8", width: 50, height: 50 }} />
                         </div>
-                        <span className="text-[10px] text-slate-500 mt-2 font-bold">Slot {slot.stepNumber}</span>
+                        <span className="text-[10px] text-slate-500 mt-2 font-bold">
+                          {["Feed me", "I hunger", "One shape, please"][slot.stepNumber - 1] || "Drop here"}
+                        </span>
+                        <span className="text-[8px] text-slate-600 mt-0.5 italic">
+                          {["not the decoy", "choose wisely", "trust your eyes"][slot.stepNumber - 1] || ""}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -538,16 +547,24 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         `}
       >
         <div className="px-4 pt-3 pb-1 flex items-center justify-between">
-          <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center gap-2">
-            Parts Tray
-            {dragOverWorkspace && (
-              <span className="text-amber-600 normal-case font-normal">
-                — Drop here to return
-              </span>
-            )}
+          <div>
+            <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center gap-2">
+              Parts Tray
+              {dragOverWorkspace && (
+                <span className="text-amber-600 normal-case font-normal">
+                  — Drop here to return
+                </span>
+              )}
+            </div>
+            <p className="text-[9px] text-neutral-400 italic mt-0.5">
+              Everything you need. Also everything you don&apos;t.
+            </p>
           </div>
-          <div className="text-[10px] text-neutral-400">
-            {availableParts.length} part{availableParts.length !== 1 ? "s" : ""} remaining
+          <div className="text-[10px] text-neutral-400 text-right">
+            <div>{availableParts.length} part{availableParts.length !== 1 ? "s" : ""} remaining</div>
+            <div className="text-[8px] text-neutral-300 italic">
+              {availableParts.length > 5 ? "so many choices" : availableParts.length > 3 ? "getting closer" : "almost there"}
+            </div>
           </div>
         </div>
 
@@ -616,9 +633,10 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       {/* Leftover Screws */}
       <div className="bg-white border-x border-neutral-200 px-4 pb-3">
         <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-          <span className="font-bold">NOTE:</span>
+          <span className="font-bold">PRO TIP:</span>
           <span className="italic">
-            Not all parts belong in slots. Match by shape, not by name.
+            If you try to use every part, you&apos;re either a robot or a hoarder.
+            Neither passes this test.
           </span>
         </div>
       </div>
@@ -639,10 +657,10 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
               `}
             >
               {submitting
-                ? "Inspecting assembly..."
+                ? "Consulting the Swedish gods..."
                 : allFilled
-                  ? "Verify Assembly"
-                  : `Place ${3 - filledCount} more part${3 - filledCount !== 1 ? "s" : ""}`}
+                  ? "Test My Humanity"
+                  : `Place ${3 - filledCount} more shape${3 - filledCount !== 1 ? "s" : ""}`}
             </button>
             <div className="text-xs text-neutral-400 text-center min-w-[50px]">
               <div className="font-bold text-sm">{filledCount}/3</div>
