@@ -428,31 +428,50 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         </div>
       </div>
 
-      {/* Instruction */}
+      {/* IKEA-style instruction panel */}
       <div className="bg-white border-x border-neutral-200 p-4">
-        <div className="flex gap-4 text-[10px] text-neutral-500 border-b border-neutral-100 pb-2 mb-2">
-          <span className="font-bold">A</span>
-          <span className="font-bold">B</span>
-          <span className="font-bold">C</span>
+        <div className="grid grid-cols-3 gap-2 text-[9px] text-neutral-400 border-b border-neutral-100 pb-2 mb-2">
+          <div className="flex items-center gap-1">
+            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">A</span>
+            <span>Prepare</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">B</span>
+            <span>Assemble</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">C</span>
+            <span>Secure</span>
+          </div>
         </div>
-        <p className="text-sm text-neutral-700 font-medium">
-          Match the ghost outlines with solid shapes from the tray below.
+        <p className="text-xs text-neutral-700">
+          <span className="font-bold text-[10px]">1.</span> Locate the solid shapes that match the ghost outlines.
         </p>
-        <p className="text-xs text-neutral-400 mt-1 italic">
-          You have more parts than you need. This is intentional. Check twice, assemble once.
+        <p className="text-xs text-neutral-700 mt-1">
+          <span className="font-bold text-[10px]">2.</span> Drag each shape to its numbered position.
         </p>
+        <p className="text-xs text-neutral-700 mt-1">
+          <span className="font-bold text-[10px]">3.</span> Verify all three positions are filled before proceeding.
+        </p>
+        <div className="mt-2 pt-2 border-t border-neutral-100 text-[9px] text-neutral-400 italic">
+          ⚠ Do not force parts. If it doesn&apos;t fit, you&apos;re using the wrong piece.
+        </div>
       </div>
 
       {/* Assembly Zone */}
       <div className="bg-white border-x border-neutral-200 px-4 pb-2">
-        <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1 flex items-center gap-2">
-          <span className="inline-block w-8 h-px bg-neutral-300" />
-          {challenge.product.name}
-          <span className="inline-block flex-1 h-px bg-neutral-300" />
+        {/* Assembly header - IKEA style */}
+        <div className="flex items-center justify-between mb-3 px-1">
+          <div className="text-[10px] text-neutral-500 font-bold">
+            {challenge.product.name}
+          </div>
+          <div className="text-[8px] text-neutral-400">
+            {challenge.product.series}
+          </div>
+          <div className="text-[12px] opacity-60">
+            {challenge.product.icon}{challenge.product.icon}{challenge.product.icon}
+          </div>
         </div>
-        <p className="text-[9px] text-neutral-400 mb-3 italic text-center">
-          {challenge.product.series} — {challenge.product.icon} {challenge.product.icon} {challenge.product.icon}
-        </p>
 
         <div className="relative bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl p-4 sm:p-6 overflow-hidden">
           {/* Blueprint grid */}
@@ -513,14 +532,17 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                       </div>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full min-h-[130px] sm:min-h-[150px] p-3">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-20">
+                        <div className="relative">
+                          <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm shadow-inner">
+                            {slot.stepNumber}
+                          </div>
+                          <div className="absolute -right-1 -top-1 text-[8px] text-neutral-400">①</div>
+                        </div>
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-15 mt-2">
                           <PartSVG item={{ id: "", type: slot.targetType, color: "#94a3b8", width: 50, height: 50 }} />
                         </div>
-                        <span className="text-[11px] font-bold text-slate-400 mt-2">
-                          {slot.stepNumber}
-                        </span>
-                        <span className="text-[8px] text-slate-500 mt-0.5 italic">
-                          {["check orientation", "ensure fit", "align properly"][slot.stepNumber - 1] || "proceed"}
+                        <span className="text-[8px] text-slate-400 mt-1 font-medium">
+                          {["check", "align", "fix"][slot.stepNumber - 1] || "ok"}
                         </span>
                       </div>
                     )}
@@ -551,13 +573,14 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         `}
       >
         <div className="px-4 pt-3 pb-1">
-          <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center justify-between">
+          <div className="flex items-center justify-between text-[10px] text-neutral-600 font-bold">
             <span>Parts included</span>
-            <span className="font-normal text-neutral-400">{challenge.parts.length} items</span>
+            <span className="text-neutral-400 font-normal">{challenge.parts.length} pcs</span>
           </div>
-          <p className="text-[9px] text-neutral-400 italic mt-0.5">
-            Do not discard. Some are required. Others are spares.
-          </p>
+          <div className="text-[8px] text-neutral-400 mt-0.5 flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+            <span>Check that all parts are present</span>
+          </div>
         </div>
 
         {/* Workbench surface */}
@@ -624,11 +647,12 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
 
       {/* Leftover Screws */}
       <div className="bg-white border-x border-neutral-200 px-4 pb-3">
-        <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-          <span className="font-bold">⚠</span>
-          <span className="italic">
-            Parts remaining after assembly is normal. If zero parts remain, you have made an error.
-          </span>
+        <div className="flex items-start gap-2 text-[9px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+          <span className="text-lg leading-none">⚠</span>
+          <div>
+            <div className="font-bold">ATTENTION</div>
+            <div>Some parts will remain unused. This is normal. Do not discard unused parts - they may be spares.</div>
+          </div>
         </div>
       </div>
 
@@ -648,10 +672,10 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
               `}
             >
               {submitting
-                ? "Checking..."
+                ? "VERIFYING..."
                 : allFilled
-                  ? "ASSEMBLE"
-                  : `${3 - filledCount} x ▢`}
+                  ? "CHECK"
+                  : `×${3 - filledCount} EMPTY`}
             </button>
             <div className="text-xs text-neutral-400 text-center min-w-[50px]">
               <div className="font-bold text-sm">{filledCount}/3</div>
@@ -695,12 +719,11 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       </div>
 
       {/* Fine Print */}
-      <div className="mt-3 text-center text-[9px] text-neutral-400 leading-relaxed">
-        {challenge.product.name}™ is a product of the Proof of Humanity™ CAPTCHA system.
+      <div className="mt-3 text-center text-[8px] text-neutral-400 leading-relaxed">
+        {challenge.product.name} / {challenge.product.series}
         <br />
-        All leftover screws are intentional. Existential dread is a feature, not a bug.
+        © Inter IKEA Systems B.V. 2024
       </div>
-
     </div>
   );
 }
