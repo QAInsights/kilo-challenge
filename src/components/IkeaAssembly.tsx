@@ -5,7 +5,6 @@ import { useState, useRef, useCallback, useEffect } from "react";
 interface FurnitureItem {
   id: string;
   type: string;
-  label: string;
   color: string;
   accentColor?: string;
   width: number;
@@ -14,9 +13,7 @@ interface FurnitureItem {
 
 interface AssemblySlot {
   stepNumber: number;
-  description: string;
   targetType: string;
-  label: string;
 }
 
 interface ChallengeData {
@@ -242,30 +239,6 @@ function LoadingSpinner() {
   );
 }
 
-// ─── Slot Target Icon ────────────────────────────────────────────────
-
-function SlotTargetIcon({ type }: { type: string }) {
-  const iconMap: Record<string, string> = {
-    rect: "▬",
-    "wide-rect": "▭",
-    circle: "○",
-    donut: "◎",
-    capsule: "�◗",
-    cross: "✚",
-    "l-bracket": "⌐",
-    triangle: "△",
-    diamond: "◇",
-    hexagon: "⬡",
-    oval: "⬭",
-    strip: "━",
-    arc: "⌓",
-    "square-peg": "◻",
-    "round-peg": "●",
-    claw: "�ӓ",
-  };
-  return <span className="text-lg opacity-50">{iconMap[type] || "▬"}</span>;
-}
-
 // ─── Main Component ──────────────────────────────────────────────────
 
 export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } = {}) {
@@ -458,7 +431,7 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       {/* Instruction */}
       <div className="bg-white border-x border-neutral-200 p-4">
         <p className="text-sm text-neutral-700 font-medium">
-          Drag the correct parts into each assembly slot. Leave the decoy and spare parts on the table.
+          Drag the matching parts into each slot. Match shapes — a ghost outline shows what each slot needs.
         </p>
         <p className="text-xs text-neutral-400 mt-1 italic">
           Real assembly always has leftover screws. Only a robot would try to use every part.
@@ -524,9 +497,6 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                         <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto">
                           <PartSVG item={placed} />
                         </div>
-                        <p className="text-[9px] text-slate-300 text-center mt-1 truncate">
-                          {placed.label}
-                        </p>
                         {isWrong && (
                           <p className="text-[8px] text-red-400 text-center mt-0.5">
                             Wrong part!
@@ -535,13 +505,10 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                       </div>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full min-h-[130px] sm:min-h-[150px] p-3">
-                        <SlotTargetIcon type={slot.targetType} />
-                        <div className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mt-2">
-                          {slot.label}
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-20">
+                          <PartSVG item={{ id: "", type: slot.targetType, color: "#94a3b8", width: 50, height: 50 }} />
                         </div>
-                        <p className="text-slate-500 text-[9px] text-center mt-1 leading-tight max-w-[120px]">
-                          {slot.description}
-                        </p>
+                        <span className="text-[10px] text-slate-500 mt-2 font-bold">Slot {slot.stepNumber}</span>
                       </div>
                     )}
                   </div>
@@ -639,11 +606,6 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                   <div className="w-full aspect-square max-w-[70px] mx-auto">
                     <PartSVG item={part} />
                   </div>
-                  <p className={`text-[8px] text-center mt-1 leading-tight font-medium truncate
-                    ${isUsed ? "text-neutral-400" : "text-neutral-700"}
-                  `}>
-                    {part.label}
-                  </p>
                 </div>
               );
             })}
@@ -656,8 +618,7 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
           <span className="font-bold">NOTE:</span>
           <span className="italic">
-            Spare screws, Allen keys, and mystery parts in the tray are normal.
-            Real humans know to ignore them.
+            Not all parts belong in slots. Match by shape, not by name.
           </span>
         </div>
       </div>
