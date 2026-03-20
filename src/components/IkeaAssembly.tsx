@@ -445,13 +445,13 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
           </div>
         </div>
         <p className="text-xs text-neutral-700">
-          <span className="font-bold text-[10px]">1.</span> Locate the solid shapes that match the ghost outlines.
+          <span className="font-bold text-[10px]">1.</span> Identify the correct shapes. Look at the ghost outline for guidance.
         </p>
         <p className="text-xs text-neutral-700 mt-1">
-          <span className="font-bold text-[10px]">2.</span> Drag each shape to its numbered position.
+          <span className="font-bold text-[10px]">2.</span> Insert each shape into its designated position. Push until you hear a subtle click.
         </p>
         <p className="text-xs text-neutral-700 mt-1">
-          <span className="font-bold text-[10px]">3.</span> Verify all three positions are filled before proceeding.
+          <span className="font-bold text-[10px]">3.</span> Tighten halfway. Do not overtighten. Some movement is acceptable.
         </p>
         <div className="mt-2 pt-2 border-t border-neutral-100 text-[9px] text-neutral-400 italic">
           ⚠ Do not force parts. If it doesn&apos;t fit, you&apos;re using the wrong piece.
@@ -542,7 +542,11 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                           <PartSVG item={{ id: "", type: slot.targetType, color: "#94a3b8", width: 50, height: 50 }} />
                         </div>
                         <span className="text-[8px] text-slate-400 mt-1 font-medium">
-                          {["check", "align", "fix"][slot.stepNumber - 1] || "ok"}
+                          {[
+                            "tap gently",
+                            "push until click",
+                            "tighten halfway"
+                          ][slot.stepNumber - 1] || "ok"}
                         </span>
                       </div>
                     )}
@@ -650,8 +654,8 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         <div className="flex items-start gap-2 text-[9px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
           <span className="text-lg leading-none">⚠</span>
           <div>
-            <div className="font-bold">ATTENTION</div>
-            <div>Some parts will remain unused. This is normal. Do not discard unused parts - they may be spares.</div>
+            <div className="font-bold">IMPORTANT</div>
+            <div>Some pieces will not be used. This is normal. Do not throw away unused parts - they are spares.</div>
           </div>
         </div>
       </div>
