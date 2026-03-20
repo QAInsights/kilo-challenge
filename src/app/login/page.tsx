@@ -1,8 +1,23 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import IkeaAssembly from "@/components/IkeaAssembly";
+
+const WITTY_CREDS = [
+  { email: "definitely.not.a.robot@humanmail.com", password: "iHaveFeelings123!" },
+  { email: "meatbag@organic.life", password: "AllenKey4Ever" },
+  { email: "leftover.screws@flätpack.se", password: "cryIntoTheDowel2" },
+  { email: "real.person@flesh.zone", password: "IActuallyReadInstructions" },
+  { email: "sentient.bookshelf@wood.grain", password: "particleBoard#1" },
+  { email: "homo.sapiens@earth.planet", password: "sweatAndTears99" },
+  { email: "not.a.bot@passcaptcha.org", password: "Sw3d1shG0ds" },
+  { email: "carbon.based@lifeform.bio", password: "MissingPage4!!" },
+  { email: "existential.dread@3am.io", password: "WhyDidIChooseFlatpack" },
+  { email: "allen.wrench.enthusiast@hex.net", password: "PhillipsHeadSux" },
+  { email: "survived.ikea@trauma.help", password: "34LeftoverScrews" },
+  { email: "emotionally.damaged@wood.glue", password: "TasteTheRegret8" },
+];
 
 type Step = "credentials" | "captcha" | "success";
 
@@ -14,6 +29,13 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [captchaPassed, setCaptchaPassed] = useState(false);
+
+  useEffect(() => {
+    const cred = WITTY_CREDS[Math.floor(Math.random() * WITTY_CREDS.length)];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEmail(cred.email);
+    setPassword(cred.password);
+  }, []);
 
   const handleCredentialsSubmit = useCallback(
     (e: React.FormEvent) => {
