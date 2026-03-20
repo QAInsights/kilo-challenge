@@ -430,12 +430,16 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
 
       {/* Instruction */}
       <div className="bg-white border-x border-neutral-200 p-4">
+        <div className="flex gap-4 text-[10px] text-neutral-500 border-b border-neutral-100 pb-2 mb-2">
+          <span className="font-bold">A</span>
+          <span className="font-bold">B</span>
+          <span className="font-bold">C</span>
+        </div>
         <p className="text-sm text-neutral-700 font-medium">
-          Each slot shows a ghost shape. Drag the matching solid shape from the tray below.
+          Match the ghost outlines with solid shapes from the tray below.
         </p>
         <p className="text-xs text-neutral-400 mt-1 italic">
-          Some parts are decoys. Not everything in the box belongs in the furniture.
-          This is also a metaphor for life.
+          You have more parts than you need. This is intentional. Check twice, assemble once.
         </p>
       </div>
 
@@ -443,11 +447,11 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       <div className="bg-white border-x border-neutral-200 px-4 pb-2">
         <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1 flex items-center gap-2">
           <span className="inline-block w-8 h-px bg-neutral-300" />
-          Assembly Area
+          {challenge.product.name}
           <span className="inline-block flex-1 h-px bg-neutral-300" />
         </div>
         <p className="text-[9px] text-neutral-400 mb-3 italic text-center">
-          The void demands three shapes. Fill it wisely.
+          {challenge.product.series} — {challenge.product.icon} {challenge.product.icon} {challenge.product.icon}
         </p>
 
         <div className="relative bg-gradient-to-b from-slate-800 to-slate-900 rounded-xl p-4 sm:p-6 overflow-hidden">
@@ -512,11 +516,11 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
                         <div className="w-12 h-12 sm:w-14 sm:h-14 opacity-20">
                           <PartSVG item={{ id: "", type: slot.targetType, color: "#94a3b8", width: 50, height: 50 }} />
                         </div>
-                        <span className="text-[10px] text-slate-500 mt-2 font-bold">
-                          {["Feed me", "I hunger", "One shape, please"][slot.stepNumber - 1] || "Drop here"}
+                        <span className="text-[11px] font-bold text-slate-400 mt-2">
+                          {slot.stepNumber}
                         </span>
-                        <span className="text-[8px] text-slate-600 mt-0.5 italic">
-                          {["not the decoy", "choose wisely", "trust your eyes"][slot.stepNumber - 1] || ""}
+                        <span className="text-[8px] text-slate-500 mt-0.5 italic">
+                          {["check orientation", "ensure fit", "align properly"][slot.stepNumber - 1] || "proceed"}
                         </span>
                       </div>
                     )}
@@ -546,26 +550,14 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
           ${dragOverWorkspace ? "bg-amber-50" : "bg-amber-50/30"}
         `}
       >
-        <div className="px-4 pt-3 pb-1 flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center gap-2">
-              Parts Tray
-              {dragOverWorkspace && (
-                <span className="text-amber-600 normal-case font-normal">
-                  — Drop here to return
-                </span>
-              )}
-            </div>
-            <p className="text-[9px] text-neutral-400 italic mt-0.5">
-              Everything you need. Also everything you don&apos;t.
-            </p>
+        <div className="px-4 pt-3 pb-1">
+          <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest flex items-center justify-between">
+            <span>Parts included</span>
+            <span className="font-normal text-neutral-400">{challenge.parts.length} items</span>
           </div>
-          <div className="text-[10px] text-neutral-400 text-right">
-            <div>{availableParts.length} part{availableParts.length !== 1 ? "s" : ""} remaining</div>
-            <div className="text-[8px] text-neutral-300 italic">
-              {availableParts.length > 5 ? "so many choices" : availableParts.length > 3 ? "getting closer" : "almost there"}
-            </div>
-          </div>
+          <p className="text-[9px] text-neutral-400 italic mt-0.5">
+            Do not discard. Some are required. Others are spares.
+          </p>
         </div>
 
         {/* Workbench surface */}
@@ -633,10 +625,9 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       {/* Leftover Screws */}
       <div className="bg-white border-x border-neutral-200 px-4 pb-3">
         <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-          <span className="font-bold">PRO TIP:</span>
+          <span className="font-bold">⚠</span>
           <span className="italic">
-            If you try to use every part, you&apos;re either a robot or a hoarder.
-            Neither passes this test.
+            Parts remaining after assembly is normal. If zero parts remain, you have made an error.
           </span>
         </div>
       </div>
@@ -657,10 +648,10 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
               `}
             >
               {submitting
-                ? "Consulting the Swedish gods..."
+                ? "Checking..."
                 : allFilled
-                  ? "Test My Humanity"
-                  : `Place ${3 - filledCount} more shape${3 - filledCount !== 1 ? "s" : ""}`}
+                  ? "ASSEMBLE"
+                  : `${3 - filledCount} x ▢`}
             </button>
             <div className="text-xs text-neutral-400 text-center min-w-[50px]">
               <div className="font-bold text-sm">{filledCount}/3</div>
