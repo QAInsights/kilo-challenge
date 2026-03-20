@@ -40,23 +40,30 @@ export interface Challenge {
   };
 }
 
+const SCREWS: FurnitureItem[] = [
+  { id: "sk-a", type: "donut", label: "Fastener Ring", color: "#8A8A8A", accentColor: "#666666", width: 18, height: 18 },
+  { id: "sk-b", type: "circle", label: "M4 Fastener", color: "#929292", accentColor: "#707070", width: 18, height: 18 },
+  { id: "sk-c", type: "capsule", label: "Hex Driver", color: "#A0A0A0", accentColor: "#808080", width: 35, height: 12 },
+  { id: "sk-d", type: "round-peg", label: "Locking Pin", color: "#9A9A9A", accentColor: "#7A7A7A", width: 16, height: 16 },
+];
+
 const PRODUCTS: Product[] = [
   {
     name: "KLÄTTBÖRD",
     series: "BÖRDSHÄLV",
     icon: "📚",
     correctParts: [
-      { id: "side-l", type: "panel-tall", label: "Left Side Panel", color: "#C4956A", width: 50, height: 90 },
-      { id: "shelves", type: "panel-wide", label: "Shelf Board (×3)", color: "#B8875A", width: 90, height: 35 },
-      { id: "backboard", type: "panel-thin", label: "Back Board", color: "#D4A574", width: 85, height: 85 },
+      { id: "kb-1", type: "rect", label: "Side Panel", color: "#C4956A", accentColor: "#A07850", width: 50, height: 90 },
+      { id: "kb-2", type: "wide-rect", label: "Shelf Board", color: "#B8875A", accentColor: "#9A7048", width: 90, height: 35 },
+      { id: "kb-3", type: "strip", label: "Backing Strip", color: "#D4A574", accentColor: "#B89060", width: 85, height: 15 },
     ],
     decoyParts: [
-      { id: "glass-shelf", type: "glass-panel", label: "Glass Shelf Insert", color: "#B8D4E3", accentColor: "#92BDD4", width: 80, height: 30 },
+      { id: "kb-d", type: "wide-rect", label: "Glass Insert", color: "#6A7A8A", accentColor: "#556575", width: 80, height: 30 },
     ],
     steps: [
-      { description: "Insert wooden dowels to connect side panels", targetType: "panel-tall" },
-      { description: "Secure shelf boards with Phillips screws", targetType: "panel-wide" },
-      { description: "Nail the back board for structural support", targetType: "panel-thin" },
+      { description: "Connect side panels with dowels", targetType: "rect" },
+      { description: "Secure shelf boards to frame", targetType: "wide-rect" },
+      { description: "Attach backing strip for support", targetType: "strip" },
     ],
   },
   {
@@ -64,17 +71,17 @@ const PRODUCTS: Product[] = [
     series: "MATDRÖM",
     icon: "🍳",
     correctParts: [
-      { id: "counter", type: "panel-wide", label: "Countertop", color: "#F0E6D3", accentColor: "#E0D4BE", width: 95, height: 30 },
-      { id: "cabinet-door", type: "panel-square", label: "Cabinet Door", color: "#E8E0D8", width: 60, height: 70 },
-      { id: "handles", type: "bracket", label: "Drawer Handles (×4)", color: "#B0B0B0", accentColor: "#909090", width: 55, height: 25 },
+      { id: "sk-1", type: "donut", label: "Hinge Collar", color: "#8A8A8A", accentColor: "#6A6A6A", width: 45, height: 45 },
+      { id: "sk-2", type: "circle", label: "Cam Lock", color: "#9A9A9A", accentColor: "#7A7A7A", width: 40, height: 40 },
+      { id: "sk-3", type: "l-bracket", label: "Corner Brace", color: "#7A7A7A", accentColor: "#5A5A5A", width: 50, height: 50 },
     ],
     decoyParts: [
-      { id: "rubber-feet", type: "rubber-foot", label: "Anti-Slip Rubber Feet", color: "#555555", accentColor: "#333333", width: 50, height: 20 },
+      { id: "sk-dy", type: "circle", label: "Rubber Bumper", color: "#4A4A4A", accentColor: "#333333", width: 35, height: 35 },
     ],
     steps: [
-      { description: "Align countertop with base unit", targetType: "panel-wide" },
-      { description: "Attach cabinet door with hinges", targetType: "panel-square" },
-      { description: "Screw in the drawer handles", targetType: "bracket" },
+      { description: "Attach hinge collars to door frame", targetType: "donut" },
+      { description: "Insert cam locks to secure panels", targetType: "circle" },
+      { description: "Mount corner braces at joints", targetType: "l-bracket" },
     ],
   },
   {
@@ -82,17 +89,17 @@ const PRODUCTS: Product[] = [
     series: "VILDSMÄLT",
     icon: "⚙️",
     correctParts: [
-      { id: "chamber", type: "panel-square", label: "Grinding Chamber", color: "#7A7A7A", accentColor: "#5A5A5A", width: 70, height: 65 },
-      { id: "blade-unit", type: "bracket", label: "Blade Assembly", color: "#C8C8C8", accentColor: "#A0A0A0", width: 60, height: 55 },
-      { id: "motor-housing", type: "panel-tall", label: "Motor Housing", color: "#4A4A4A", accentColor: "#333333", width: 55, height: 80 },
+      { id: "bk-1", type: "l-bracket", label: "Mounting Plate", color: "#7A7A7A", accentColor: "#5A5A5A", width: 60, height: 65 },
+      { id: "bk-2", type: "cross", label: "Blade Holder", color: "#B8B8B8", accentColor: "#989898", width: 55, height: 55 },
+      { id: "bk-3", type: "hexagon", label: "Locking Nut", color: "#4A4A4A", accentColor: "#333333", width: 40, height: 40 },
     ],
     decoyParts: [
-      { id: "safety-goggles", type: "glass-panel", label: "Safety Goggles", color: "#FFD700", accentColor: "#DAA520", width: 70, height: 30 },
+      { id: "bk-d", type: "hexagon", label: "Spacer Washer", color: "#6A6A6A", accentColor: "#505050", width: 35, height: 35 },
     ],
     steps: [
-      { description: "Insert grinding chamber into base", targetType: "panel-square" },
-      { description: "Place blade assembly into chamber", targetType: "bracket" },
-      { description: "Attach motor housing and secure", targetType: "panel-tall" },
+      { description: "Bolt mounting plate to base", targetType: "l-bracket" },
+      { description: "Seat blade holder into chamber", targetType: "cross" },
+      { description: "Tighten locking nut to secure", targetType: "hexagon" },
     ],
   },
   {
@@ -100,17 +107,17 @@ const PRODUCTS: Product[] = [
     series: "NATTMÖRKER",
     icon: "⭐",
     correctParts: [
-      { id: "wire-ring", type: "panel-wide", label: "Wire Ring Frame", color: "#B8860B", accentColor: "#8B6508", width: 85, height: 25 },
-      { id: "web-string", type: "dowel", label: "Weaving String Bundle", color: "#F5F5DC", accentColor: "#E0DCC0", width: 50, height: 15 },
-      { id: "feathers", type: "panel-thin", label: "Decorative Feathers", color: "#9370DB", accentColor: "#7B5FBF", width: 35, height: 80 },
+      { id: "st-1", type: "capsule", label: "Ring Segment", color: "#B8860B", accentColor: "#9A7200", width: 85, height: 25 },
+      { id: "st-2", type: "arc", label: "Hanging Loop", color: "#9370DB", accentColor: "#7B5FBF", width: 50, height: 60 },
+      { id: "st-3", type: "diamond", label: "Charm Piece", color: "#CD853F", accentColor: "#B07030", width: 35, height: 35 },
     ],
     decoyParts: [
-      { id: "led-lights", type: "screw", label: "Fairy LED Lights", color: "#FFD700", accentColor: "#FFA500", width: 45, height: 45 },
+      { id: "st-d", type: "capsule", label: "String Anchor", color: "#8B7355", accentColor: "#706040", width: 40, height: 20 },
     ],
     steps: [
-      { description: "Bend wire ring into circle shape", targetType: "panel-wide" },
-      { description: "Weave string across the ring", targetType: "dowel" },
-      { description: "Tie feathers to hanging strings", targetType: "panel-thin" },
+      { description: "Bend ring segment into circle", targetType: "capsule" },
+      { description: "Attach hanging loop at top", targetType: "arc" },
+      { description: "Thread charm pieces onto strings", targetType: "diamond" },
     ],
   },
   {
@@ -118,17 +125,125 @@ const PRODUCTS: Product[] = [
     series: "KOMFORTZON",
     icon: "🛋️",
     correctParts: [
-      { id: "foam-core", type: "panel-square", label: "Memory Foam Core", color: "#E8E0F0", accentColor: "#D0C4E0", width: 80, height: 50 },
-      { id: "outer-cover", type: "panel-wide", label: "Fabric Outer Cover", color: "#6B8E9B", accentColor: "#567A87", width: 90, height: 55 },
-      { id: "zipper", type: "bracket", label: "Zipper Assembly", color: "#A0A0A0", accentColor: "#808080", width: 70, height: 15 },
+      { id: "fk-1", type: "oval", label: "Foam Insert", color: "#E8E0F0", accentColor: "#D0C4E0", width: 80, height: 50 },
+      { id: "fk-2", type: "wide-rect", label: "Fabric Panel", color: "#6B8E9B", accentColor: "#567A87", width: 90, height: 55 },
+      { id: "fk-3", type: "strip", label: "Zipper Track", color: "#A0A0A0", accentColor: "#808080", width: 70, height: 15 },
     ],
     decoyParts: [
-      { id: "air-pump", type: "rubber-foot", label: "Inflation Air Pump", color: "#FF6B6B", accentColor: "#E05555", width: 40, height: 55 },
+      { id: "fk-d", type: "oval", label: "Air Bladder", color: "#C8B8D8", accentColor: "#B0A0C0", width: 60, height: 35 },
     ],
     steps: [
-      { description: "Insert memory foam into cover", targetType: "panel-square" },
-      { description: "Wrap the outer fabric cover", targetType: "panel-wide" },
-      { description: "Secure the zipper assembly", targetType: "bracket" },
+      { description: "Insert foam core into cover", targetType: "oval" },
+      { description: "Wrap fabric panel around cushion", targetType: "wide-rect" },
+      { description: "Align and close zipper track", targetType: "strip" },
+    ],
+  },
+  {
+    name: "FLÄTKÖK",
+    series: "VRISTBÄNK",
+    icon: "🍽️",
+    correctParts: [
+      { id: "fl-1", type: "triangle", label: "Support Wedge", color: "#C8B090", accentColor: "#B09878", width: 55, height: 55 },
+      { id: "fl-2", type: "rect", label: "Counter Slab", color: "#F0E6D3", accentColor: "#E0D4BE", width: 70, height: 85 },
+      { id: "fl-3", type: "round-peg", label: "Dowel Pin", color: "#B89B70", accentColor: "#A08860", width: 25, height: 25 },
+    ],
+    decoyParts: [
+      { id: "fl-d", type: "triangle", label: "Anti-Tip Bracket", color: "#8A8A8A", accentColor: "#6A6A6A", width: 45, height: 45 },
+    ],
+    steps: [
+      { description: "Position support wedges under overhang", targetType: "triangle" },
+      { description: "Set counter slab onto base unit", targetType: "rect" },
+      { description: "Press dowel pins into alignment holes", targetType: "round-peg" },
+    ],
+  },
+  {
+    name: "VÄGGKROK",
+    series: "HÄNGSLAG",
+    icon: "🪝",
+    correctParts: [
+      { id: "vk-1", type: "claw", label: "Hook Assembly", color: "#5A5A5A", accentColor: "#3A3A3A", width: 45, height: 70 },
+      { id: "vk-2", type: "square-peg", label: "Wall Anchor", color: "#B8B8B8", accentColor: "#989898", width: 35, height: 35 },
+      { id: "vk-3", type: "strip", label: "Mounting Rail", color: "#7A7A7A", accentColor: "#5A5A5A", width: 90, height: 14 },
+    ],
+    decoyParts: [
+      { id: "vk-d", type: "claw", label: "Coil Hanger", color: "#8A7A6A", accentColor: "#6A5A4A", width: 40, height: 60 },
+    ],
+    steps: [
+      { description: "Screw hook assembly into rail", targetType: "claw" },
+      { description: "Drive wall anchors into studs", targetType: "square-peg" },
+      { description: "Level and mount the rail", targetType: "strip" },
+    ],
+  },
+  {
+    name: "BOKHYLLA",
+    series: "SIDFLÄK",
+    icon: "📖",
+    correctParts: [
+      { id: "bh-1", type: "diamond", label: "Decorative Insert", color: "#C4956A", accentColor: "#A07850", width: 45, height: 45 },
+      { id: "bh-2", type: "rect", label: "Upright Stile", color: "#B8875A", accentColor: "#9A7048", width: 40, height: 90 },
+      { id: "bh-3", type: "cross", label: "X-Brace", color: "#A08060", accentColor: "#887050", width: 70, height: 70 },
+    ],
+    decoyParts: [
+      { id: "bh-d", type: "diamond", label: "Felt Pad", color: "#D4A574", accentColor: "#C09060", width: 30, height: 30 },
+    ],
+    steps: [
+      { description: "Press decorative inserts into shelf fronts", targetType: "diamond" },
+      { description: "Stand upright stiles and connect shelves", targetType: "rect" },
+      { description: "Brace rear with X-brace assembly", targetType: "cross" },
+    ],
+  },
+  {
+    name: "SKRIVBORD",
+    series: "ARBETSHÖJD",
+    icon: "🖥️",
+    correctParts: [
+      { id: "sb-1", type: "wide-rect", label: "Desktop Surface", color: "#D2B48C", accentColor: "#BCA478", width: 95, height: 35 },
+      { id: "sb-2", type: "rect", label: "Leg Panel", color: "#C4A47C", accentColor: "#A89068", width: 30, height: 80 },
+      { id: "sb-3", type: "arc", label: "Cable Grommet", color: "#8A8A8A", accentColor: "#6A6A6A", width: 35, height: 35 },
+    ],
+    decoyParts: [
+      { id: "sb-d", type: "wide-rect", label: "Keyboard Tray", color: "#B8A480", accentColor: "#A09070", width: 80, height: 25 },
+    ],
+    steps: [
+      { description: "Place desktop surface on legs", targetType: "wide-rect" },
+      { description: "Attach leg panels to underside", targetType: "rect" },
+      { description: "Insert cable grommet into desk hole", targetType: "arc" },
+    ],
+  },
+  {
+    name: "SPEGELRAM",
+    series: "REFLEKTERA",
+    icon: "🪞",
+    correctParts: [
+      { id: "sr-1", type: "strip", label: "Frame Slat", color: "#B8860B", accentColor: "#9A7200", width: 90, height: 16 },
+      { id: "sr-2", type: "l-bracket", label: "Corner Joint", color: "#8A8A8A", accentColor: "#6A6A6A", width: 35, height: 35 },
+      { id: "sr-3", type: "square-peg", label: "Backing Board", color: "#A08060", accentColor: "#887050", width: 60, height: 60 },
+    ],
+    decoyParts: [
+      { id: "sr-d", type: "strip", label: "Rubber Bumper", color: "#4A4A4A", accentColor: "#333333", width: 25, height: 10 },
+    ],
+    steps: [
+      { description: "Join frame slats at edges", targetType: "strip" },
+      { description: "Secure corners with L-joints", targetType: "l-bracket" },
+      { description: "Mount backing board behind mirror", targetType: "square-peg" },
+    ],
+  },
+  {
+    name: "TRÄDGÅRD",
+    series: "GRÖNSKAN",
+    icon: "🌱",
+    correctParts: [
+      { id: "td-1", type: "hexagon", label: "Planter Base", color: "#6B8E5A", accentColor: "#567A48", width: 65, height: 65 },
+      { id: "td-2", type: "strip", label: "Drainage Slat", color: "#8A7A6A", accentColor: "#6A5A4A", width: 60, height: 12 },
+      { id: "td-3", type: "circle", label: "Plug Gasket", color: "#5A5A5A", accentColor: "#3A3A3A", width: 28, height: 28 },
+    ],
+    decoyParts: [
+      { id: "td-d", type: "circle", label: "Water Level Float", color: "#4A6A8A", accentColor: "#3A5A7A", width: 30, height: 30 },
+    ],
+    steps: [
+      { description: "Assemble hexagonal planter base", targetType: "hexagon" },
+      { description: "Lay drainage slats across bottom", targetType: "strip" },
+      { description: "Seal drain hole with plug gasket", targetType: "circle" },
     ],
   },
 ];
@@ -147,16 +262,12 @@ export function generateChallenge(): Challenge {
   const shuffledCorrect = shuffle([...product.correctParts]);
   const decoy = product.decoyParts[0];
 
-  const leftoverScrews: FurnitureItem[] = [
-    { id: "ls-1", type: "screw", label: "M4 Screw", color: "#A0A0A0", accentColor: "#808080", width: 18, height: 18 },
-    { id: "ls-2", type: "screw", label: "M4 Screw", color: "#A8A8A8", accentColor: "#888888", width: 18, height: 18 },
-    { id: "ls-3", type: "screw", label: "Allen Key", color: "#B8B8B8", accentColor: "#999999", width: 35, height: 12 },
-  ];
+  const screws = shuffle([...SCREWS]).slice(0, 2 + Math.floor(Math.random() * 2));
 
   const allParts = shuffle([
     ...shuffledCorrect,
     decoy,
-    ...leftoverScrews,
+    ...screws,
   ]);
 
   const slots: AssemblySlot[] = product.steps.map((step, i) => ({
@@ -178,7 +289,7 @@ export function generateChallenge(): Challenge {
     answer: {
       order: product.correctParts.map((p) => p.id),
       decoy: decoy.id,
-      leftoverScrews: leftoverScrews.map((s) => s.id),
+      leftoverScrews: screws.map((s) => s.id),
     },
   };
 }

@@ -31,154 +31,169 @@ interface ChallengeData {
 }
 
 // ─── SVG Part Renderers ──────────────────────────────────────────────
+// All parts render as abstract silhouettes — no wood grain, no screw
+// details, no recognizable features. Bots can't distinguish by shape
+// alone; humans rely on labels and assembly context.
 
-function WoodGrain({ color }: { color: string }) {
-  const darker = adjustColor(color, -12);
-  return (
-    <g opacity="0.18" stroke={darker} strokeWidth="0.7" fill="none">
-      <path d="M5,8 Q20,5 35,9 T65,7 T95,8" />
-      <path d="M5,18 Q25,15 40,19 T70,16 T95,18" />
-      <path d="M5,28 Q15,25 30,29 T60,26 T95,28" />
-      <path d="M5,38 Q22,35 38,39 T68,36 T95,38" />
-      <path d="M5,48 Q18,45 33,49 T63,46 T95,48" />
-      <path d="M5,58 Q28,55 43,59 T73,56 T95,58" />
-      <path d="M5,68 Q20,65 35,69 T65,66 T95,68" />
-      <path d="M5,78 Q24,75 39,79 T69,76 T95,78" />
-      <path d="M5,88 Q16,85 31,89 T61,86 T95,88" />
-    </g>
-  );
-}
-
-function PanelTall({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -25);
+function ShapeRect({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="8" y="3" width="55" height="94" rx="2"
-        fill={color} stroke={edge} strokeWidth="1.5" />
-      <rect x="8" y="3" width="22" height="94" rx="2"
-        fill={adjustColor(color, 8)} opacity="0.3" />
-      <WoodGrain color={color} />
-      <circle cx="18" cy="15" r="2.5" fill={edge} opacity="0.5" />
-      <circle cx="18" cy="50" r="2.5" fill={edge} opacity="0.5" />
-      <circle cx="18" cy="85" r="2.5" fill={edge} opacity="0.5" />
+      <rect x="8" y="12" width="84" height="76" rx="3" fill={color} stroke={stroke} strokeWidth="2" />
+      <line x1="50" y1="22" x2="50" y2="78" stroke={stroke} strokeWidth="0.8" opacity="0.2" />
+      <line x1="18" y1="50" x2="82" y2="50" stroke={stroke} strokeWidth="0.8" opacity="0.2" />
     </svg>
   );
 }
 
-function PanelWide({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -25);
+function ShapeWideRect({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="3" y="22" width="94" height="42" rx="2"
-        fill={color} stroke={edge} strokeWidth="1.5" />
-      <rect x="3" y="22" width="94" height="14" rx="2"
-        fill={adjustColor(color, 10)} opacity="0.3" />
-      <WoodGrain color={color} />
-      <circle cx="15" cy="43" r="2" fill={edge} opacity="0.4" />
-      <circle cx="85" cy="43" r="2" fill={edge} opacity="0.4" />
+      <rect x="5" y="28" width="90" height="44" rx="3" fill={color} stroke={stroke} strokeWidth="2" />
+      <circle cx="50" cy="50" r="6" fill="none" stroke={stroke} strokeWidth="1" opacity="0.25" />
     </svg>
   );
 }
 
-function PanelThin({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -25);
+function ShapeCircle({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="12" y="3" width="42" height="94" rx="1"
-        fill={color} stroke={edge} strokeWidth="1" />
-      <g opacity="0.1" stroke={edge} strokeWidth="0.5" fill="none">
-        <path d="M15,10 L50,10" /><path d="M15,25 L50,25" />
-        <path d="M15,40 L50,40" /><path d="M15,55 L50,55" />
-        <path d="M15,70 L50,70" /><path d="M15,85 L50,85" />
-      </g>
-      <line x1="33" y1="8" x2="33" y2="92" stroke={edge} strokeWidth="0.3" opacity="0.15" />
+      <circle cx="50" cy="50" r="34" fill={color} stroke={stroke} strokeWidth="2" />
+      <circle cx="50" cy="50" r="8" fill="none" stroke={stroke} strokeWidth="1.2" opacity="0.3" />
     </svg>
   );
 }
 
-function PanelSquare({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -25);
+function ShapeDonut({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="10" y="8" width="60" height="80" rx="2"
-        fill={color} stroke={edge} strokeWidth="1.5" />
-      <rect x="10" y="8" width="25" height="80" rx="2"
-        fill={adjustColor(color, 8)} opacity="0.25" />
-      <WoodGrain color={color} />
-      <circle cx="55" cy="48" r="3" fill="none" stroke={edge} strokeWidth="1" opacity="0.4" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke={stroke} strokeWidth="10" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke={color} strokeWidth="6" />
     </svg>
   );
 }
 
-function Screw({ color, accentColor }: { color: string; accentColor?: string }) {
-  const dark = accentColor || adjustColor(color, -30);
+function ShapeCapsule({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <circle cx="50" cy="38" r="22" fill={color} stroke={dark} strokeWidth="2" />
-      <ellipse cx="50" cy="38" rx="22" ry="6" fill={adjustColor(color, 15)} opacity="0.4" />
-      <line x1="38" y1="38" x2="62" y2="38" stroke={dark} strokeWidth="2.5" />
-      <line x1="50" y1="26" x2="50" y2="50" stroke={dark} strokeWidth="2.5" />
-      <path d="M42,55 L42,88 Q42,92 46,92 L54,92 Q58,92 58,88 L58,55"
-        fill={dark} />
-      <path d="M42,60 L58,57 M42,68 L58,65 M42,76 L58,73 M42,84 L58,81"
-        stroke={adjustColor(color, 20)} strokeWidth="1" opacity="0.3" />
+      <rect x="12" y="35" width="76" height="30" rx="15" fill={color} stroke={stroke} strokeWidth="2" />
+      <line x1="30" y1="50" x2="70" y2="50" stroke={stroke} strokeWidth="0.8" opacity="0.2" />
     </svg>
   );
 }
 
-function Dowel({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -20);
+function ShapeCross({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="15" y="38" width="70" height="24" rx="12"
-        fill={color} stroke={edge} strokeWidth="1.5" />
-      <rect x="15" y="38" width="70" height="10" rx="5"
-        fill={adjustColor(color, 15)} opacity="0.3" />
-      <ellipse cx="15" cy="50" rx="4" ry="12" fill={adjustColor(color, 10)} stroke={edge} strokeWidth="1" />
-      <ellipse cx="85" cy="50" rx="4" ry="12" fill={edge} stroke={adjustColor(edge, -10)} strokeWidth="1" />
+      <rect x="38" y="12" width="24" height="76" rx="3" fill={color} stroke={stroke} strokeWidth="2" />
+      <rect x="12" y="38" width="76" height="24" rx="3" fill={color} stroke={stroke} strokeWidth="2" />
     </svg>
   );
 }
 
-function Bracket({ color, accentColor }: { color: string; accentColor?: string }) {
-  const dark = accentColor || adjustColor(color, -25);
+function ShapeLBracket({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <path d="M20,15 L20,80 L80,80 L80,65 L35,65 L35,15 Z"
-        fill={color} stroke={dark} strokeWidth="2" strokeLinejoin="round" />
-      <circle cx="27" cy="28" r="4" fill="none" stroke={dark} strokeWidth="1.5" />
-      <circle cx="27" cy="52" r="4" fill="none" stroke={dark} strokeWidth="1.5" />
-      <circle cx="67" cy="73" r="4" fill="none" stroke={dark} strokeWidth="1.5" />
-      <path d="M20,15 L80,15" stroke={adjustColor(color, 20)} strokeWidth="1" opacity="0.3" />
+      <path d="M18,12 L18,88 L82,88 L82,68 L38,68 L38,12 Z"
+        fill={color} stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function GlassPanel({ color, accentColor }: { color: string; accentColor?: string }) {
-  const edge = accentColor || adjustColor(color, -20);
+function ShapeTriangle({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <rect x="8" y="28" width="84" height="44" rx="2"
-        fill={color} fillOpacity="0.4" stroke={edge} strokeWidth="1.5" />
-      <rect x="8" y="28" width="30" height="44" rx="2"
-        fill="white" fillOpacity="0.15" />
-      <path d="M15,32 L40,68" stroke="white" strokeWidth="1.5" opacity="0.4" />
-      <path d="M22,32 L47,68" stroke="white" strokeWidth="0.8" opacity="0.25" />
-      <rect x="8" y="28" width="84" height="44" rx="2"
-        fill="none" stroke={edge} strokeWidth="0.5" strokeDasharray="4,3" opacity="0.5" />
+      <polygon points="50,10 90,85 10,85" fill={color} stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
+      <circle cx="50" cy="55" r="5" fill="none" stroke={stroke} strokeWidth="1" opacity="0.25" />
     </svg>
   );
 }
 
-function RubberFoot({ color, accentColor }: { color: string; accentColor?: string }) {
-  const dark = accentColor || adjustColor(color, -20);
+function ShapeDiamond({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
-      <ellipse cx="50" cy="65" rx="35" ry="18" fill={dark} />
-      <ellipse cx="50" cy="60" rx="32" ry="15" fill={color} stroke={dark} strokeWidth="1.5" />
-      <ellipse cx="50" cy="56" rx="20" ry="8" fill={adjustColor(color, 15)} opacity="0.4" />
-      <ellipse cx="50" cy="52" rx="14" ry="5" fill={adjustColor(color, 25)} opacity="0.2" />
-      <text x="50" y="68" textAnchor="middle" fontSize="8" fill={adjustColor(color, 30)} fontWeight="bold" opacity="0.4">GRIP</text>
+      <polygon points="50,8 92,50 50,92 8,50" fill={color} stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ShapeHexagon({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <polygon points="50,8 90,28 90,72 50,92 10,72 10,28"
+        fill={color} stroke={stroke} strokeWidth="2" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ShapeOval({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <ellipse cx="50" cy="50" rx="40" ry="26" fill={color} stroke={stroke} strokeWidth="2" />
+      <line x1="25" y1="50" x2="75" y2="50" stroke={stroke} strokeWidth="0.8" opacity="0.2" />
+    </svg>
+  );
+}
+
+function ShapeStrip({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <rect x="5" y="40" width="90" height="20" rx="4" fill={color} stroke={stroke} strokeWidth="2" />
+      <circle cx="25" cy="50" r="3" fill="none" stroke={stroke} strokeWidth="0.8" opacity="0.25" />
+      <circle cx="75" cy="50" r="3" fill="none" stroke={stroke} strokeWidth="0.8" opacity="0.25" />
+    </svg>
+  );
+}
+
+function ShapeArc({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <path d="M15,75 Q15,20 50,20 Q85,20 85,75" fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" />
+      <path d="M15,75 Q15,20 50,20 Q85,20 85,75" fill="none" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ShapeSquarePeg({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <rect x="20" y="20" width="60" height="60" rx="2" fill={color} stroke={stroke} strokeWidth="2" />
+      <rect x="35" y="35" width="30" height="30" rx="1" fill="none" stroke={stroke} strokeWidth="1" opacity="0.2" />
+    </svg>
+  );
+}
+
+function ShapeRoundPeg({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <circle cx="50" cy="50" r="30" fill={color} stroke={stroke} strokeWidth="2" />
+      <circle cx="50" cy="50" r="14" fill="none" stroke={stroke} strokeWidth="0.8" opacity="0.2" />
+    </svg>
+  );
+}
+
+function ShapeClaw({ color, accentColor }: { color: string; accentColor?: string }) {
+  const stroke = accentColor || adjustColor(color, -30);
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full">
+      <path d="M20,80 L20,30 Q20,15 35,15 L65,15 Q80,15 80,30 L80,80"
+        fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" />
+      <path d="M20,80 L20,30 Q20,15 35,15 L65,15 Q80,15 80,30 L80,80"
+        fill="none" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -186,16 +201,23 @@ function RubberFoot({ color, accentColor }: { color: string; accentColor?: strin
 function PartSVG({ item }: { item: FurnitureItem }) {
   const props = { color: item.color, accentColor: item.accentColor };
   switch (item.type) {
-    case "panel-tall": return <PanelTall {...props} />;
-    case "panel-wide": return <PanelWide {...props} />;
-    case "panel-thin": return <PanelThin {...props} />;
-    case "panel-square": return <PanelSquare {...props} />;
-    case "screw": return <Screw {...props} />;
-    case "dowel": return <Dowel {...props} />;
-    case "bracket": return <Bracket {...props} />;
-    case "glass-panel": return <GlassPanel {...props} />;
-    case "rubber-foot": return <RubberFoot {...props} />;
-    default: return <PanelSquare {...props} />;
+    case "rect": return <ShapeRect {...props} />;
+    case "wide-rect": return <ShapeWideRect {...props} />;
+    case "circle": return <ShapeCircle {...props} />;
+    case "donut": return <ShapeDonut {...props} />;
+    case "capsule": return <ShapeCapsule {...props} />;
+    case "cross": return <ShapeCross {...props} />;
+    case "l-bracket": return <ShapeLBracket {...props} />;
+    case "triangle": return <ShapeTriangle {...props} />;
+    case "diamond": return <ShapeDiamond {...props} />;
+    case "hexagon": return <ShapeHexagon {...props} />;
+    case "oval": return <ShapeOval {...props} />;
+    case "strip": return <ShapeStrip {...props} />;
+    case "arc": return <ShapeArc {...props} />;
+    case "square-peg": return <ShapeSquarePeg {...props} />;
+    case "round-peg": return <ShapeRoundPeg {...props} />;
+    case "claw": return <ShapeClaw {...props} />;
+    default: return <ShapeRect {...props} />;
   }
 }
 
@@ -224,17 +246,24 @@ function LoadingSpinner() {
 
 function SlotTargetIcon({ type }: { type: string }) {
   const iconMap: Record<string, string> = {
-    "panel-tall": "▬",
-    "panel-wide": "▭",
-    "panel-thin": "▮",
-    "panel-square": "◻",
-    screw: "⊕",
-    dowel: "⊖",
-    bracket: "⌐",
-    "glass-panel": "◻",
-    "rubber-foot": "◉",
+    rect: "▬",
+    "wide-rect": "▭",
+    circle: "○",
+    donut: "◎",
+    capsule: "�◗",
+    cross: "✚",
+    "l-bracket": "⌐",
+    triangle: "△",
+    diamond: "◇",
+    hexagon: "⬡",
+    oval: "⬭",
+    strip: "━",
+    arc: "⌓",
+    "square-peg": "◻",
+    "round-peg": "●",
+    claw: "�ӓ",
   };
-  return <span className="text-lg opacity-50">{iconMap[type] || "◻"}</span>;
+  return <span className="text-lg opacity-50">{iconMap[type] || "▬"}</span>;
 }
 
 // ─── Main Component ──────────────────────────────────────────────────
