@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import IkeaAssembly from "@/components/IkeaAssembly";
+import Assembly3D from "@/components/Assembly3D";
 import PaymentCheckout from "@/components/PaymentCheckout";
 
 const WITTY_CREDS = [
@@ -257,16 +257,16 @@ export default function LoginPage() {
                     Prove you&apos;re human
                   </h2>
                   <p className="text-sm text-neutral-500 mt-1">
-                    Match the shapes to the ghost outlines. No text hints.
+                    Assemble the 3D furniture. Click parts to place them.
                   </p>
                 </div>
 
                 <div className="bg-ikea-yellow/20 border border-ikea-yellow rounded-lg px-3 py-2 text-xs text-amber-800">
                   <span className="font-bold">⚠️ Required:</span> This step
-                  cannot be skipped. Bots can&apos;t match shapes to outlines.
+                  cannot be skipped. Bots can&apos;t reason about 3D spatial assembly.
                 </div>
 
-                <IkeaAssembly onSuccess={handleCaptchaSuccess} />
+                <Assembly3D onSuccess={handleCaptchaSuccess} />
               </div>
             )}
 
