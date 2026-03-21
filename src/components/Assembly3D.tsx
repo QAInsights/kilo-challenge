@@ -29,43 +29,37 @@ interface Furniture3D {
 
 // ─── Furniture Definitions ───────────────────────────────────────────
 
-const FURNITURE: Furniture3D[] = [
+function randPos(radius: number, y: number): [number, number, number] {
+  const angle = Math.random() * Math.PI * 2;
+  const r = 2 + Math.random() * radius;
+  return [Math.cos(angle) * r, y, Math.sin(angle) * r];
+}
+
+interface FurnitureTemplate {
+  name: string;
+  series: string;
+  icon: string;
+  cameraPos: [number, number, number];
+  correctParts: Omit<Part3D, "position" | "isPlaced">[];
+  decoyParts: Omit<Part3D, "position" | "isPlaced">[];
+}
+
+const TEMPLATES: FurnitureTemplate[] = [
   {
     name: "SKRIVBORD",
     series: "ARBETSGLÄDJE",
     icon: "🖥️",
     cameraPos: [6, 5, 6],
-    parts: [
-      {
-        id: "desk-top", label: "Desktop", meshType: "tabletop",
-        color: "#C4956A", position: [-3, 0.15, 0], targetPosition: [0, 1.5, 0],
-        size: [3, 0.12, 1.5], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "desk-leg-fl", label: "Leg", meshType: "leg",
-        color: "#888", position: [1, 0.4, -2], targetPosition: [-1.3, 0.7, -0.6],
-        size: [0.1, 1.4, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "desk-leg-fr", label: "Leg", meshType: "leg",
-        color: "#888", position: [2, 0.4, 2], targetPosition: [1.3, 0.7, -0.6],
-        size: [0.1, 1.4, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "desk-leg-bl", label: "Leg", meshType: "leg",
-        color: "#999", position: [0, 0.4, 3], targetPosition: [-1.3, 0.7, 0.6],
-        size: [0.1, 1.4, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "desk-leg-br", label: "Leg", meshType: "leg",
-        color: "#999", position: [-2, 0.4, -3], targetPosition: [1.3, 0.7, 0.6],
-        size: [0.1, 1.4, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "desk-decoy", label: "Keyboard Tray", meshType: "crossbar",
-        color: "#A08060", position: [3, 0.1, 1], targetPosition: [0, 0, 0],
-        size: [1.2, 0.08, 0.5], isDecoy: true, isPlaced: false,
-      },
+    correctParts: [
+      { id: "dt", label: "Desktop", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1.5, 0], size: [3, 0.12, 1.5], isDecoy: false },
+      { id: "dl1", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-1.3, 0.7, -0.6], size: [0.1, 1.4, 0.1], isDecoy: false },
+      { id: "dl2", label: "Leg", meshType: "leg", color: "#888", targetPosition: [1.3, 0.7, -0.6], size: [0.1, 1.4, 0.1], isDecoy: false },
+      { id: "dl3", label: "Leg", meshType: "leg", color: "#999", targetPosition: [-1.3, 0.7, 0.6], size: [0.1, 1.4, 0.1], isDecoy: false },
+      { id: "dl4", label: "Leg", meshType: "leg", color: "#999", targetPosition: [1.3, 0.7, 0.6], size: [0.1, 1.4, 0.1], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "dd1", label: "Keyboard Tray", meshType: "crossbar", color: "#A08060", targetPosition: [0, 0, 0], size: [1.2, 0.08, 0.5], isDecoy: true },
+      { id: "dd2", label: "Cable Grommet", meshType: "crossbar", color: "#7A7A7A", targetPosition: [0, 0, 0], size: [0.3, 0.06, 0.3], isDecoy: true },
     ],
   },
   {
@@ -73,37 +67,16 @@ const FURNITURE: Furniture3D[] = [
     series: "SIDFLÄK",
     icon: "📖",
     cameraPos: [5, 4, 5],
-    parts: [
-      {
-        id: "shelf-side-l", label: "Left Panel", meshType: "shelf",
-        color: "#B8875A", position: [-3, 0.8, 1], targetPosition: [-1.2, 1, 0],
-        size: [0.08, 2.5, 0.8], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "shelf-side-r", label: "Right Panel", meshType: "shelf",
-        color: "#B8875A", position: [3, 0.8, -1], targetPosition: [1.2, 1, 0],
-        size: [0.08, 2.5, 0.8], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "shelf-mid-1", label: "Shelf Board", meshType: "tabletop",
-        color: "#C4956A", position: [0, 0.1, -3], targetPosition: [0, 0.5, 0],
-        size: [2.3, 0.06, 0.75], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "shelf-mid-2", label: "Shelf Board", meshType: "tabletop",
-        color: "#C4956A", position: [-1, 0.1, 3], targetPosition: [0, 1.2, 0],
-        size: [2.3, 0.06, 0.75], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "shelf-mid-3", label: "Shelf Board", meshType: "tabletop",
-        color: "#C4956A", position: [2, 0.1, 0], targetPosition: [0, 1.9, 0],
-        size: [2.3, 0.06, 0.75], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "shelf-decoy", label: "Glass Insert", meshType: "tabletop",
-        color: "#B8D4E3", position: [0, 0.05, 4], targetPosition: [0, 0, 0],
-        size: [2, 0.03, 0.7], isDecoy: true, isPlaced: false,
-      },
+    correctParts: [
+      { id: "sl", label: "Left Panel", meshType: "shelf", color: "#B8875A", targetPosition: [-1.2, 1, 0], size: [0.08, 2.5, 0.8], isDecoy: false },
+      { id: "sr", label: "Right Panel", meshType: "shelf", color: "#B8875A", targetPosition: [1.2, 1, 0], size: [0.08, 2.5, 0.8], isDecoy: false },
+      { id: "sb1", label: "Shelf Board", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 0.5, 0], size: [2.3, 0.06, 0.75], isDecoy: false },
+      { id: "sb2", label: "Shelf Board", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1.2, 0], size: [2.3, 0.06, 0.75], isDecoy: false },
+      { id: "sb3", label: "Shelf Board", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1.9, 0], size: [2.3, 0.06, 0.75], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "sd1", label: "Glass Insert", meshType: "tabletop", color: "#B8D4E3", targetPosition: [0, 0, 0], size: [2, 0.03, 0.7], isDecoy: true },
+      { id: "sd2", label: "Anti-Tip Strap", meshType: "crossbar", color: "#555", targetPosition: [0, 0, 0], size: [0.5, 0.04, 0.08], isDecoy: true },
     ],
   },
   {
@@ -111,37 +84,17 @@ const FURNITURE: Furniture3D[] = [
     series: "SITTKOMFORT",
     icon: "🪑",
     cameraPos: [4, 3.5, 4],
-    parts: [
-      {
-        id: "chair-seat", label: "Seat", meshType: "tabletop",
-        color: "#C4956A", position: [-2, 0.1, 0], targetPosition: [0, 1, 0],
-        size: [1.2, 0.08, 1.2], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "chair-back", label: "Backrest", meshType: "backrest",
-        color: "#B8875A", position: [2, 0.6, -2], targetPosition: [0, 1.8, -0.55],
-        size: [1.1, 1.2, 0.08], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "chair-leg-fl", label: "Leg", meshType: "leg",
-        color: "#888", position: [0, 0.3, 2], targetPosition: [-0.5, 0.45, 0.5],
-        size: [0.07, 0.95, 0.07], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "chair-leg-fr", label: "Leg", meshType: "leg",
-        color: "#888", position: [1, 0.3, -1], targetPosition: [0.5, 0.45, 0.5],
-        size: [0.07, 0.95, 0.07], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "chair-leg-bl", label: "Leg", meshType: "leg",
-        color: "#999", position: [-1, 0.3, -3], targetPosition: [-0.5, 0.45, -0.5],
-        size: [0.07, 0.95, 0.07], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "chair-decoy", label: "Armrest", meshType: "bracket",
-        color: "#A08060", position: [3, 0.2, 3], targetPosition: [0, 0, 0],
-        size: [0.1, 0.5, 0.8], isDecoy: true, isPlaced: false,
-      },
+    correctParts: [
+      { id: "cs", label: "Seat", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1, 0], size: [1.2, 0.08, 1.2], isDecoy: false },
+      { id: "cb", label: "Backrest", meshType: "backrest", color: "#B8875A", targetPosition: [0, 1.8, -0.55], size: [1.1, 1.2, 0.08], isDecoy: false },
+      { id: "cl1", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-0.5, 0.45, 0.5], size: [0.07, 0.95, 0.07], isDecoy: false },
+      { id: "cl2", label: "Leg", meshType: "leg", color: "#888", targetPosition: [0.5, 0.45, 0.5], size: [0.07, 0.95, 0.07], isDecoy: false },
+      { id: "cl3", label: "Leg", meshType: "leg", color: "#999", targetPosition: [-0.5, 0.45, -0.5], size: [0.07, 0.95, 0.07], isDecoy: false },
+      { id: "cl4", label: "Leg", meshType: "leg", color: "#999", targetPosition: [0.5, 0.45, -0.5], size: [0.07, 0.95, 0.07], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "cd1", label: "Armrest", meshType: "bracket", color: "#A08060", targetPosition: [0, 0, 0], size: [0.1, 0.5, 0.8], isDecoy: true },
+      { id: "cd2", label: "Cushion Pad", meshType: "tabletop", color: "#D4A574", targetPosition: [0, 0, 0], size: [1, 0.12, 1], isDecoy: true },
     ],
   },
   {
@@ -149,40 +102,91 @@ const FURNITURE: Furniture3D[] = [
     series: "MATDAG",
     icon: "🍽️",
     cameraPos: [5, 4, 5],
-    parts: [
-      {
-        id: "table-top", label: "Tabletop", meshType: "tabletop",
-        color: "#D2B48C", position: [0, 0.15, -3], targetPosition: [0, 1.6, 0],
-        size: [2.5, 0.1, 1.5], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "table-leg-1", label: "Leg", meshType: "leg",
-        color: "#888", position: [-2, 0.4, 2], targetPosition: [-1.1, 0.75, -0.6],
-        size: [0.1, 1.5, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "table-leg-2", label: "Leg", meshType: "leg",
-        color: "#888", position: [2, 0.4, 2], targetPosition: [1.1, 0.75, -0.6],
-        size: [0.1, 1.5, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "table-leg-3", label: "Leg", meshType: "leg",
-        color: "#999", position: [-3, 0.4, 0], targetPosition: [-1.1, 0.75, 0.6],
-        size: [0.1, 1.5, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "table-leg-4", label: "Leg", meshType: "leg",
-        color: "#999", position: [3, 0.4, 0], targetPosition: [1.1, 0.75, 0.6],
-        size: [0.1, 1.5, 0.1], isDecoy: false, isPlaced: false,
-      },
-      {
-        id: "table-decoy", label: "Cross Brace", meshType: "crossbar",
-        color: "#7A7A7A", position: [0, 0.15, 3], targetPosition: [0, 0, 0],
-        size: [2, 0.06, 0.06], isDecoy: true, isPlaced: false,
-      },
+    correctParts: [
+      { id: "tt", label: "Tabletop", meshType: "tabletop", color: "#D2B48C", targetPosition: [0, 1.6, 0], size: [2.5, 0.1, 1.5], isDecoy: false },
+      { id: "tl1", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-1.1, 0.75, -0.6], size: [0.1, 1.5, 0.1], isDecoy: false },
+      { id: "tl2", label: "Leg", meshType: "leg", color: "#888", targetPosition: [1.1, 0.75, -0.6], size: [0.1, 1.5, 0.1], isDecoy: false },
+      { id: "tl3", label: "Leg", meshType: "leg", color: "#999", targetPosition: [-1.1, 0.75, 0.6], size: [0.1, 1.5, 0.1], isDecoy: false },
+      { id: "tl4", label: "Leg", meshType: "leg", color: "#999", targetPosition: [1.1, 0.75, 0.6], size: [0.1, 1.5, 0.1], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "td1", label: "Cross Brace", meshType: "crossbar", color: "#7A7A7A", targetPosition: [0, 0, 0], size: [2, 0.06, 0.06], isDecoy: true },
+      { id: "td2", label: "Leaves Insert", meshType: "tabletop", color: "#BFA070", targetPosition: [0, 0, 0], size: [0.8, 0.08, 1.4], isDecoy: true },
+    ],
+  },
+  {
+    name: "NATTBORD",
+    series: "SÖMNLAND",
+    icon: "🛏️",
+    cameraPos: [4, 3, 4],
+    correctParts: [
+      { id: "nt", label: "Top", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1.2, 0], size: [1, 0.06, 0.8], isDecoy: false },
+      { id: "nl1", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-0.4, 0.55, -0.3], size: [0.06, 1.1, 0.06], isDecoy: false },
+      { id: "nl2", label: "Leg", meshType: "leg", color: "#888", targetPosition: [0.4, 0.55, -0.3], size: [0.06, 1.1, 0.06], isDecoy: false },
+      { id: "nl3", label: "Leg", meshType: "leg", color: "#999", targetPosition: [-0.4, 0.55, 0.3], size: [0.06, 1.1, 0.06], isDecoy: false },
+      { id: "nl4", label: "Leg", meshType: "leg", color: "#999", targetPosition: [0.4, 0.55, 0.3], size: [0.06, 1.1, 0.06], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "nd1", label: "Drawer Front", meshType: "tabletop", color: "#A07850", targetPosition: [0, 0, 0], size: [0.9, 0.3, 0.04], isDecoy: true },
+      { id: "nd2", label: "Handle", meshType: "crossbar", color: "#aaa", targetPosition: [0, 0, 0], size: [0.2, 0.03, 0.04], isDecoy: true },
+    ],
+  },
+  {
+    name: "TVBÄNK",
+    series: "SKÄRMFOT",
+    icon: "📺",
+    cameraPos: [6, 4, 5],
+    correctParts: [
+      { id: "tvb", label: "Top Panel", meshType: "tabletop", color: "#2A2A2A", targetPosition: [0, 1.1, 0], size: [3.5, 0.08, 0.9], isDecoy: false },
+      { id: "tvs1", label: "Side Panel", meshType: "shelf", color: "#2A2A2A", targetPosition: [-1.65, 0.55, 0], size: [0.06, 1.1, 0.85], isDecoy: false },
+      { id: "tvs2", label: "Side Panel", meshType: "shelf", color: "#2A2A2A", targetPosition: [1.65, 0.55, 0], size: [0.06, 1.1, 0.85], isDecoy: false },
+      { id: "tvm", label: "Middle Shelf", meshType: "tabletop", color: "#333", targetPosition: [0, 0.5, 0], size: [3.18, 0.05, 0.82], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "tvd1", label: "Back Panel", meshType: "shelf", color: "#1A1A1A", targetPosition: [0, 0, 0], size: [3.4, 1, 0.02], isDecoy: true },
+      { id: "tvd2", label: "Cable Clip", meshType: "crossbar", color: "#555", targetPosition: [0, 0, 0], size: [0.1, 0.08, 0.05], isDecoy: true },
+    ],
+  },
+  {
+    name: "SPEGEL",
+    series: "REFLEKTION",
+    icon: "🪞",
+    cameraPos: [4, 3, 5],
+    correctParts: [
+      { id: "spf1", label: "Frame Top", meshType: "crossbar", color: "#B8860B", targetPosition: [0, 2.2, 0], size: [1.5, 0.08, 0.08], isDecoy: false },
+      { id: "spf2", label: "Frame Bottom", meshType: "crossbar", color: "#B8860B", targetPosition: [0, 0.8, 0], size: [1.5, 0.08, 0.08], isDecoy: false },
+      { id: "spf3", label: "Frame Left", meshType: "crossbar", color: "#B8860B", targetPosition: [-0.71, 1.5, 0], size: [0.08, 1.48, 0.08], isDecoy: false },
+      { id: "spf4", label: "Frame Right", meshType: "crossbar", color: "#B8860B", targetPosition: [0.71, 1.5, 0], size: [0.08, 1.48, 0.08], isDecoy: false },
+      { id: "spb", label: "Backing Board", meshType: "shelf", color: "#8A7A6A", targetPosition: [0, 1.5, -0.05], size: [1.3, 1.3, 0.03], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "spd1", label: "Wall Bracket", meshType: "bracket", color: "#777", targetPosition: [0, 0, 0], size: [0.15, 0.15, 0.1], isDecoy: true },
+      { id: "spd2", label: "Level Bubble", meshType: "crossbar", color: "#aaa", targetPosition: [0, 0, 0], size: [0.2, 0.05, 0.05], isDecoy: true },
     ],
   },
 ];
+
+function buildFurniture(template: FurnitureTemplate): Furniture3D {
+  const correctParts: Part3D[] = template.correctParts.map((p) => ({
+    ...p,
+    position: randPos(2, p.size[1] / 2 + 0.1),
+    isPlaced: false,
+  }));
+
+  const decoyParts: Part3D[] = template.decoyParts.map((p) => ({
+    ...p,
+    position: randPos(2, p.size[1] / 2 + 0.1),
+    isPlaced: false,
+  }));
+
+  return {
+    name: template.name,
+    series: template.series,
+    icon: template.icon,
+    cameraPos: template.cameraPos,
+    parts: [...correctParts, ...decoyParts],
+  };
+}
 
 // ─── 3D Mesh Components ─────────────────────────────────────────────
 
@@ -222,12 +226,6 @@ function PartMesh({
       pos[2],
       delta * 5
     );
-
-    // Hover/selected bob
-    if (!part.isPlaced && !ghost) {
-      meshRef.current.position.y +=
-        Math.sin(Date.now() * 0.003 + part.position[0]) * 0.02;
-    }
 
     // Scale animation
     const targetScale = ghost ? 0.95 : selected ? 0.85 : scale;
@@ -456,12 +454,11 @@ function AssemblyScene({
 
 export default function Assembly3D({ onSuccess }: { onSuccess?: () => void } = {}) {
   const [furnitureIdx] = useState(() =>
-    Math.floor(Math.random() * FURNITURE.length)
+    Math.floor(Math.random() * TEMPLATES.length)
   );
-  const [furniture, setFurniture] = useState<Furniture3D>(() => ({
-    ...FURNITURE[furnitureIdx],
-    parts: FURNITURE[furnitureIdx].parts.map((p) => ({ ...p })),
-  }));
+  const [furniture, setFurniture] = useState<Furniture3D>(() =>
+    buildFurniture(TEMPLATES[furnitureIdx])
+  );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -565,13 +562,12 @@ export default function Assembly3D({ onSuccess }: { onSuccess?: () => void } = {
   }, [furniture, allPlaced, result, onSuccess]);
 
   const handleReset = useCallback(() => {
-    setFurniture({
-      ...FURNITURE[furnitureIdx],
-      parts: FURNITURE[furnitureIdx].parts.map((p) => ({ ...p })),
-    });
+    // Pick a new random template each time
+    const newIdx = Math.floor(Math.random() * TEMPLATES.length);
+    setFurniture(buildFurniture(TEMPLATES[newIdx]));
     setSelectedId(null);
     setResult(null);
-  }, [furnitureIdx]);
+  }, []);
 
   return (
     <div className="w-full max-w-3xl mx-auto select-none">
@@ -596,33 +592,58 @@ export default function Assembly3D({ onSuccess }: { onSuccess?: () => void } = {
         </div>
       </div>
 
-      {/* Instruction */}
+      {/* IKEA Assembly Manual */}
       <div className="bg-white border-x border-neutral-200 p-4">
-        <div className="grid grid-cols-3 gap-2 text-[9px] text-neutral-400 border-b border-neutral-100 pb-2 mb-2">
-          <div className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">A</span>
-            <span>Prepare</span>
+        <div className="flex items-center justify-between border-b border-neutral-100 pb-2 mb-2">
+          <div className="flex gap-3 text-[9px] text-neutral-400">
+            <div className="flex items-center gap-1">
+              <span className="w-5 h-5 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-600 flex items-center justify-center font-bold text-[8px]">A</span>
+              <span>Prepare</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="w-5 h-5 rounded-full bg-ikea-blue text-white flex items-center justify-center font-bold text-[8px]">B</span>
+              <span className="font-bold">Assemble</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="w-5 h-5 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-600 flex items-center justify-center font-bold text-[8px]">C</span>
+              <span>Secure</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">B</span>
-            <span>Assemble</span>
+          <span className="text-[8px] text-neutral-300">×2 recommended</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-[10px] text-neutral-700 leading-relaxed">
+              <span className="font-bold">1.</span> Identify each part on the workbench. Compare with ghost outline.
+            </p>
+            <p className="text-[10px] text-neutral-700 leading-relaxed mt-1">
+              <span className="font-bold">2.</span> Click to select. The part will glow when active.
+            </p>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="w-4 h-4 rounded-full bg-neutral-200 text-neutral-600 flex items-center justify-center font-bold text-[8px]">C</span>
-            <span>Secure</span>
+          <div>
+            <p className="text-[10px] text-neutral-700 leading-relaxed">
+              <span className="font-bold">3.</span> Click &quot;Place Part&quot; to insert. Push until you hear a click.
+            </p>
+            <p className="text-[10px] text-neutral-700 leading-relaxed mt-1">
+              <span className="font-bold">4.</span> Not all parts are required. Some are spares or decoys.
+            </p>
           </div>
         </div>
-        <p className="text-xs text-neutral-700">
-          <span className="font-bold text-[10px]">1.</span> Click a part to select it. The ghost outline shows where it belongs.
-        </p>
-        <p className="text-xs text-neutral-700 mt-1">
-          <span className="font-bold text-[10px]">2.</span> Click &quot;Place Part&quot; to snap it into position. Drag to orbit the view.
-        </p>
-        <p className="text-xs text-neutral-700 mt-1">
-          <span className="font-bold text-[10px]">3.</span> Not all parts belong. Some are decoys.
-        </p>
-        <div className="mt-2 pt-2 border-t border-neutral-100 text-[9px] text-neutral-400 italic">
-          ⚠ Rotate the view to check alignment from all angles.
+
+        <div className="mt-2 pt-2 border-t border-neutral-100 grid grid-cols-2 gap-2 text-[8px] text-neutral-400">
+          <div className="flex items-start gap-1">
+            <span>⚠</span>
+            <span>Do not force parts into position. If it doesn&apos;t fit, rotate the view.</span>
+          </div>
+          <div className="flex items-start gap-1">
+            <span>⚠</span>
+            <span>Two persons recommended for large panels. Use included tool only.</span>
+          </div>
+        </div>
+
+        <div className="mt-1 text-[7px] text-neutral-300 italic text-center">
+          Part numbers: check carton. Allen key: included. Leftover parts: normal.
         </div>
       </div>
 
