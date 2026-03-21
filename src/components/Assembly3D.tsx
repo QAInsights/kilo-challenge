@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useCallback, Suspense } from "react";
+import { useRef, useState, useCallback, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, RoundedBox } from "@react-three/drei";
+import { OrbitControls, RoundedBox, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 // ─── Types ───────────────────────────────────────────────────────────
@@ -162,6 +162,74 @@ const TEMPLATES: FurnitureTemplate[] = [
     decoyParts: [
       { id: "spd1", label: "Wall Bracket", meshType: "bracket", color: "#777", targetPosition: [0, 0, 0], size: [0.15, 0.15, 0.1], isDecoy: true },
       { id: "spd2", label: "Level Bubble", meshType: "crossbar", color: "#aaa", targetPosition: [0, 0, 0], size: [0.2, 0.05, 0.05], isDecoy: true },
+    ],
+  },
+  {
+    name: "KAFFEBORD",
+    series: "MELLANSTUND",
+    icon: "☕",
+    cameraPos: [4, 2.5, 4],
+    correctParts: [
+      { id: "kt", label: "Tabletop", meshType: "tabletop", color: "#D2B48C", targetPosition: [0, 0.85, 0], size: [1.8, 0.06, 1], isDecoy: false },
+      { id: "kl1", label: "Leg", meshType: "leg", color: "#333", targetPosition: [-0.75, 0.38, -0.35], size: [0.06, 0.75, 0.06], isDecoy: false },
+      { id: "kl2", label: "Leg", meshType: "leg", color: "#333", targetPosition: [0.75, 0.38, -0.35], size: [0.06, 0.75, 0.06], isDecoy: false },
+      { id: "kl3", label: "Leg", meshType: "leg", color: "#333", targetPosition: [-0.75, 0.38, 0.35], size: [0.06, 0.75, 0.06], isDecoy: false },
+      { id: "kl4", label: "Leg", meshType: "leg", color: "#333", targetPosition: [0.75, 0.38, 0.35], size: [0.06, 0.75, 0.06], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "kd1", label: "Magazine Shelf", meshType: "tabletop", color: "#B89B70", targetPosition: [0, 0, 0], size: [1.4, 0.04, 0.6], isDecoy: true },
+      { id: "kd2", label: "Cup Holder", meshType: "crossbar", color: "#888", targetPosition: [0, 0, 0], size: [0.15, 0.04, 0.15], isDecoy: true },
+    ],
+  },
+  {
+    name: "GARDEROB",
+    series: "KLÄDSKÅP",
+    icon: "🚪",
+    cameraPos: [5, 4, 6],
+    correctParts: [
+      { id: "gl", label: "Left Wall", meshType: "shelf", color: "#B8875A", targetPosition: [-0.8, 1.5, 0], size: [0.06, 3, 1], isDecoy: false },
+      { id: "gr", label: "Right Wall", meshType: "shelf", color: "#B8875A", targetPosition: [0.8, 1.5, 0], size: [0.06, 3, 1], isDecoy: false },
+      { id: "gt", label: "Top Panel", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 3, 0], size: [1.66, 0.06, 1], isDecoy: false },
+      { id: "gb", label: "Bottom Panel", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 0.03, 0], size: [1.66, 0.06, 1], isDecoy: false },
+      { id: "gs", label: "Shelf", meshType: "tabletop", color: "#C4956A", targetPosition: [0, 1.5, 0], size: [1.54, 0.04, 0.9], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "gd1", label: "Door Panel", meshType: "shelf", color: "#A07850", targetPosition: [0, 0, 0], size: [0.78, 2.9, 0.04], isDecoy: true },
+      { id: "gd2", label: "Clothes Rod", meshType: "crossbar", color: "#aaa", targetPosition: [0, 0, 0], size: [0.03, 0.03, 0.8], isDecoy: true },
+    ],
+  },
+  {
+    name: "SOFFA",
+    series: "VILAPLATS",
+    icon: "🛋️",
+    cameraPos: [5, 3, 5],
+    correctParts: [
+      { id: "sb", label: "Base", meshType: "tabletop", color: "#6B8E9B", targetPosition: [0, 0.5, 0], size: [2.5, 0.4, 1], isDecoy: false },
+      { id: "sbl", label: "Backrest", meshType: "backrest", color: "#6B8E9B", targetPosition: [0, 1.2, -0.45], size: [2.5, 0.8, 0.15], isDecoy: false },
+      { id: "ssl", label: "Left Arm", meshType: "backrest", color: "#567A87", targetPosition: [-1.15, 0.9, 0], size: [0.2, 0.5, 1], isDecoy: false },
+      { id: "ssr", label: "Right Arm", meshType: "backrest", color: "#567A87", targetPosition: [1.15, 0.9, 0], size: [0.2, 0.5, 1], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "sd1", label: "Cushion", meshType: "tabletop", color: "#8BABB8", targetPosition: [0, 0, 0], size: [0.6, 0.15, 0.5], isDecoy: true },
+      { id: "sd2", label: "Leg Set", meshType: "crossbar", color: "#333", targetPosition: [0, 0, 0], size: [0.05, 0.15, 0.05], isDecoy: true },
+    ],
+  },
+  {
+    name: "SÄNG",
+    series: "DRÖMLAND",
+    icon: "🛏️",
+    cameraPos: [5, 3.5, 5],
+    correctParts: [
+      { id: "bm", label: "Mattress Base", meshType: "tabletop", color: "#D2B48C", targetPosition: [0, 0.6, 0], size: [2.2, 0.12, 1.8], isDecoy: false },
+      { id: "bh", label: "Headboard", meshType: "backrest", color: "#B8875A", targetPosition: [0, 1.2, -0.85], size: [2.2, 1, 0.08], isDecoy: false },
+      { id: "bl1", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-1, 0.25, -0.8], size: [0.08, 0.5, 0.08], isDecoy: false },
+      { id: "bl2", label: "Leg", meshType: "leg", color: "#888", targetPosition: [1, 0.25, -0.8], size: [0.08, 0.5, 0.08], isDecoy: false },
+      { id: "bl3", label: "Leg", meshType: "leg", color: "#888", targetPosition: [-1, 0.25, 0.8], size: [0.08, 0.5, 0.08], isDecoy: false },
+      { id: "bl4", label: "Leg", meshType: "leg", color: "#888", targetPosition: [1, 0.25, 0.8], size: [0.08, 0.5, 0.08], isDecoy: false },
+    ],
+    decoyParts: [
+      { id: "bd1", label: "Footboard", meshType: "backrest", color: "#B8875A", targetPosition: [0, 0, 0], size: [2.2, 0.6, 0.08], isDecoy: true },
+      { id: "bd2", label: "Slat Pack", meshType: "crossbar", color: "#C4A47C", targetPosition: [0, 0, 0], size: [2, 0.02, 0.1], isDecoy: true },
     ],
   },
 ];
@@ -438,6 +506,60 @@ function AssemblyScene({
       <Screw3D position={[3.15, 0.02, -3]} />
       <Screw3D position={[2.9, 0.02, -2.85]} />
 
+      {/* 3D Instruction Booklet */}
+      <group position={[-3.5, 0.02, -3.5]} rotation={[-Math.PI / 2, 0, 0.3]}>
+        {/* Paper sheet */}
+        <mesh>
+          <boxGeometry args={[1.8, 1.2, 0.005]} />
+          <meshStandardMaterial color="#FFFFF0" roughness={0.9} />
+        </mesh>
+        {/* Booklet content */}
+        <Html
+          transform
+          distanceFactor={5}
+          position={[0, 0, 0.005]}
+          style={{
+            width: "180px",
+            height: "120px",
+            background: "#FFFFF0",
+            padding: "6px",
+            fontFamily: "monospace",
+            fontSize: "5px",
+            color: "#333",
+            lineHeight: "1.3",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          <div style={{ borderBottom: "1px solid #ccc", paddingBottom: "3px", marginBottom: "3px", display: "flex", justifyContent: "space-between" }}>
+            <strong style={{ fontSize: "6px" }}>ASSEMBLY INSTRUCTIONS</strong>
+            <span style={{ fontSize: "4px", color: "#999" }}>{furniture.name}</span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px" }}>
+            <div>
+              <div style={{ fontWeight: "bold", fontSize: "4px", marginBottom: "1px" }}>A — PREPARE</div>
+              <div>① Count all parts</div>
+              <div>② Sort by shape</div>
+              <div>③ Locate ghost outline</div>
+            </div>
+            <div>
+              <div style={{ fontWeight: "bold", fontSize: "4px", marginBottom: "1px" }}>B — ASSEMBLE</div>
+              <div>① Match part to ghost</div>
+              <div>② Click to select</div>
+              <div>③ Press Place Part</div>
+            </div>
+          </div>
+          <div style={{ marginTop: "3px", borderTop: "1px solid #eee", paddingTop: "2px" }}>
+            <div style={{ fontWeight: "bold", fontSize: "4px", marginBottom: "1px" }}>C — SECURE</div>
+            <div>① Verify alignment ② Do not force ③ Some parts unused — NORMAL</div>
+          </div>
+          <div style={{ marginTop: "2px", fontSize: "3.5px", color: "#aaa", fontStyle: "italic", borderTop: "1px solid #eee", paddingTop: "2px" }}>
+            ⚠ Two persons recommended. Allen key included. Do not use power drill.
+            <br />Leftover parts: this is normal. Do not discard.
+          </div>
+        </Html>
+      </group>
+
       <OrbitControls
         enablePan={false}
         minDistance={3}
@@ -453,15 +575,19 @@ function AssemblyScene({
 // ─── Main Component ──────────────────────────────────────────────────
 
 export default function Assembly3D({ onSuccess }: { onSuccess?: () => void } = {}) {
-  const [furnitureIdx] = useState(() =>
-    Math.floor(Math.random() * TEMPLATES.length)
-  );
   const [furniture, setFurniture] = useState<Furniture3D>(() =>
-    buildFurniture(TEMPLATES[furnitureIdx])
+    buildFurniture(TEMPLATES[0])
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
   const [attempts, setAttempts] = useState(0);
+
+  // Randomize on mount (client-only, avoids hydration mismatch)
+  useEffect(() => {
+    const idx = Math.floor(Math.random() * TEMPLATES.length);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFurniture(buildFurniture(TEMPLATES[idx]));
+  }, []);
 
   const correctParts = furniture.parts.filter((p) => !p.isDecoy);
   const placedCount = correctParts.filter((p) => p.isPlaced).length;
