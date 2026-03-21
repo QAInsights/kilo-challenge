@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import ScrewTightener from "./ScrewTightener";
 
 interface FurnitureItem {
   id: string;
@@ -251,6 +252,8 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
   const [attempts, setAttempts] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [wrongSlots, setWrongSlots] = useState<Set<number>>(new Set());
+  const [tightenedScrews, setTightenedScrews] = useState<Set<number>>(new Set());
+  const SCREW_COUNT = 3;
   const dragItemId = useRef<string | null>(null);
   const dragSourceSlot = useRef<number | null>(null);
 
@@ -262,6 +265,7 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
     setDragOverSlot(null);
     setDragOverWorkspace(false);
     setWrongSlots(new Set());
+    setTightenedScrews(new Set());
 
     const res = await fetch("/api/challenge");
     const data = await res.json();
@@ -327,6 +331,7 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       }
 
       setDragOverSlot(null);
+      setTightenedScrews(new Set());
       setWrongSlots((prev) => { const n = new Set(prev); n.delete(slotIndex); return n; });
     },
     [challenge, result]
@@ -344,6 +349,7 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
       }
       return next;
     });
+    setTightenedScrews(new Set());
     setDragOverWorkspace(false);
   }, [result]);
 
@@ -400,6 +406,8 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
 
   const filledCount = Object.keys(placedParts).length;
   const allFilled = filledCount === 3;
+  const allScrewsTightened = tightenedScrews.size >= SCREW_COUNT;
+  const readyToSubmit = allFilled && allScrewsTightened;
 
   if (!challenge) return <LoadingSpinner />;
 
@@ -660,16 +668,51 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
         </div>
       </div>
 
+      {/* Tighten Screws */}
+      {allFilled && (
+        <div className="bg-white border-x border-neutral-200 px-4 py-3">
+          <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1 flex items-center gap-2">
+            <span className="inline-block w-8 h-px bg-neutral-300" />
+            Fasten
+            <span className="inline-block flex-1 h-px bg-neutral-300" />
+          </div>
+          <p className="text-[9px] text-neutral-400 mb-3">
+            Rotate clockwise to tighten each screw. Two full turns per screw.
+          </p>
+          <div className="flex items-center justify-center gap-6 py-2">
+            {Array.from({ length: SCREW_COUNT }).map((_, i) => (
+              <ScrewTightener
+                key={i}
+                index={i}
+                total={SCREW_COUNT}
+                onComplete={() => {
+                  setTightenedScrews((prev) => {
+                    const next = new Set(prev);
+                    next.add(i);
+                    return next;
+                  });
+                }}
+              />
+            ))}
+          </div>
+          {allScrewsTightened && (
+            <p className="text-[9px] text-green-600 text-center mt-1 font-bold">
+              All fasteners secured.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Submit / Result */}
       <div className="bg-neutral-50 border border-neutral-200 rounded-b-xl p-4">
         {result === null ? (
           <div className="flex items-center gap-3">
             <button
               onClick={handleSubmit}
-              disabled={!allFilled || submitting}
+              disabled={!readyToSubmit || submitting}
               className={`
                 flex-1 py-3 rounded-lg font-bold text-sm uppercase tracking-wider transition-all
-                ${allFilled && !submitting
+                ${readyToSubmit && !submitting
                   ? "bg-ikea-blue text-white hover:bg-blue-800 active:scale-[0.98] shadow-lg"
                   : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                 }
@@ -677,9 +720,12 @@ export default function IkeaAssembly({ onSuccess }: { onSuccess?: () => void } =
             >
               {submitting
                 ? "VERIFYING..."
-                : allFilled
-                  ? "CHECK"
-                  : `×${3 - filledCount} EMPTY`}
+                : !allFilled
+                  ? `×${3 - filledCount} EMPTY`
+                  : !allScrewsTightened
+                    ? `TIGHTEN ${SCREW_COUNT - tightenedScrews.size} SCREW${SCREW_COUNT - tightenedScrews.size !== 1 ? "S" : ""}`
+                    : "CHECK"
+              }
             </button>
             <div className="text-xs text-neutral-400 text-center min-w-[50px]">
               <div className="font-bold text-sm">{filledCount}/3</div>
